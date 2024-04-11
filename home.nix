@@ -31,6 +31,11 @@ in {
     ltrace # library call monitoring
     lsof # list open files
     kgpg
+
+    nodejs_21
+    rustup
+    go
+    python3
   ];
 
   # basic configuration of git, please change to your own
