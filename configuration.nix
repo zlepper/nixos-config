@@ -78,6 +78,10 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -86,7 +90,7 @@
   users.users.rasmus = {
     isNormalUser = true;
     description = "Rasmus";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
       firefox
       kate
@@ -102,6 +106,15 @@
 
 
   programs.fish.enable = true;
+  programs.bash = {
+  interactiveShellInit = ''
+      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+      then
+        shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+        exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
+      fi
+    '';
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -113,12 +126,19 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
+    git-lfs
     jetbrains-toolbox
     dotnet-sdk_8
     google-chrome
-    tailscale
+    lens
+    kubectl
+    bluedevil
+    spotify
   #  wget
   ];
+
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "client";
 
   programs._1password.enable = true;
   programs._1password-gui = {
