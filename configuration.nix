@@ -135,6 +135,12 @@
     spotify
     gscreenshot
     insomnia
+    remmina
+    imagemagick
+    ffmpeg_5-headless
+    ghostscript
+    libreoffice-fresh
+    libmediainfo
   #  wget
   ];
 
