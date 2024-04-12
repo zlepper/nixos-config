@@ -133,6 +133,7 @@
     kubectl
     bluedevil
     spotify
+    gscreenshot
   #  wget
   ];
 
