@@ -134,6 +134,7 @@
     bluedevil
     spotify
     gscreenshot
+    insomnia
   #  wget
   ];
 
