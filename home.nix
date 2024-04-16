@@ -17,25 +17,20 @@ in {
   home.packages = with pkgs; [
     zip
     unzip
-    ripgrep # recursively searches directories for a regex pattern
-    eza # A modern replacement for ‘ls’
-    dnsutils  # `dig` + `nslookup`
     which
     tree
     btop  # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
-
-    # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
-    lsof # list open files
     kgpg
-
-    nodejs_21
-    rustup
-    go
-    python3
+    google-chrome
+    spotify
+    gscreenshot
+    discord
+    firefox
+    kate
+    dive
+    tree
   ];
 
   # basic configuration of git, please change to your own

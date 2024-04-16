@@ -6,7 +6,10 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      ./gc.nix
+      ./tailscale.nix
+      ./fish.nix
     ];
 
   # Bootloader.
@@ -91,30 +94,11 @@
     isNormalUser = true;
     description = "Rasmus";
     extraGroups = [ "networkmanager" "wheel" "video" ];
-    packages = with pkgs; [
-      firefox
-      kate
-      dive
-      tree
-      thunderbird
-    ];
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.enable = false;
   services.xserver.displayManager.autoLogin.user = "rasmus";
-
-
-  programs.fish.enable = true;
-  programs.bash = {
-  interactiveShellInit = ''
-      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-      then
-        shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-        exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
-      fi
-    '';
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -128,20 +112,13 @@
     git
     jetbrains-toolbox
     dotnet-sdk_8
-    google-chrome
     lens
     kubectl
     bluedevil
-    spotify
-    gscreenshot
     insomnia
     remmina
-    discord
   #  wget
   ];
-
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "client";
 
   programs._1password.enable = true;
   programs._1password-gui = {
@@ -172,24 +149,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Limit the number of generations to keep
-  boot.loader.systemd-boot.configurationLimit = 10;
-  # boot.loader.grub.configurationLimit = 10;
-
-  # Perform garbage collection weekly to maintain low disk usage
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 1w";
-  };
-
-  # Optimize storage
-  # You can also manually optimize the store via:
-  #    nix-store --optimise
-  # Refer to the following link for more details:
-  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-  nix.settings.auto-optimise-store = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
