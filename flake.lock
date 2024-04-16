@@ -41,10 +41,10 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "unstable": "unstable"
+        "unstableNixpkgs": "unstableNixpkgs"
       }
     },
-    "unstable": {
+    "unstableNixpkgs": {
       "locked": {
         "lastModified": 1712963716,
         "narHash": "sha256-WKm9CvgCldeIVvRz87iOMi8CFVB1apJlkUT4GGvA0iM=",

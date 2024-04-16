@@ -4,7 +4,9 @@
   inputs = {
     # NixOS official package source, using the nixos-23.11 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    unstableNixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       # The `follows` keyword in inputs is used for inheritance.
@@ -15,9 +17,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, ... }@inputs:
+  let
+      unstablePkgs = import unstableNixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
+  in {
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
 
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -93,6 +99,9 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
+          home-manager.extraSpecialArgs = {
+            unstable = unstablePkgs;
+          };
           home-manager.users.rasmus = import ./home.nix;
         }
       ];
