@@ -4,34 +4,32 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d5859be9-b2eb-43f8-b997-6f4fef554fde";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/d5859be9-b2eb-43f8-b997-6f4fef554fde";
+    fsType = "ext4";
+  };
 
-  boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270".device = "/dev/disk/by-uuid/d26f5db3-adad-472d-8244-27a2e65bb270";
+  boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270".device =
+    "/dev/disk/by-uuid/d26f5db3-adad-472d-8244-27a2e65bb270";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F6A6-D664";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/F6A6-D664";
+    fsType = "vfat";
+  };
 
   swapDevices =
-    [
-      { device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995"; }];
 
-  boot.initrd.luks.devices."luks-41434903-08ad-473f-bd3d-e8e01ef1762e".device = "/dev/disk/by-uuid/41434903-08ad-473f-bd3d-e8e01ef1762e";
-
+  boot.initrd.luks.devices."luks-41434903-08ad-473f-bd3d-e8e01ef1762e".device =
+    "/dev/disk/by-uuid/41434903-08ad-473f-bd3d-e8e01ef1762e";
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -41,51 +39,6 @@
   # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-
-    # Modesetting is required.
-    modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
-    powerManagement.enable = false;
-
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
-
-    # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

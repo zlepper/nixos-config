@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
-let
-  # onePassPath = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
-  onePassPath = "~/.1password/agent.sock";
+let onePassPath = "~/.1password/agent.sock";
 in {
   home.username = "rasmus";
   home.homeDirectory = "/home/rasmus";
@@ -12,14 +10,13 @@ in {
   #     xxx
   # '';
 
-
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     zip
     unzip
     which
     tree
-    btop  # replacement of htop/nmon
+    btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
     kgpg
@@ -31,6 +28,7 @@ in {
     kate
     dive
     tree
+    remmina
   ];
 
   # basic configuration of git, please change to your own
@@ -39,11 +37,7 @@ in {
     userName = "zlepper";
     userEmail = "hansen13579@gmail.com";
     lfs.enable = true;
-    extraConfig = {
-        push = {
-            autoSetupRemote = true;
-        };
-    };
+    extraConfig = { push = { autoSetupRemote = true; }; };
   };
 
   programs.ssh = {
@@ -54,8 +48,8 @@ in {
     '';
   };
 
-  services.gpg-agent = {                                                
-    enable = true;                                                                                                 
+  services.gpg-agent = {
+    enable = true;
     #extraConfig = "pinentry-program ${pkgs.pinentry-gtk2}/bin/pinentry";
   };
 

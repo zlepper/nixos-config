@@ -4,6 +4,7 @@
   imports = [
     ./work-desktop-hardware.nix
     ./enable-nvidia-drivers.nix
+    ./bluetooth.nix
     ./configuration.nix
   ];
 

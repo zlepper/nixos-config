@@ -4,29 +4,27 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/63ad54c2-e617-4128-b223-b332ae653271";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/63ad54c2-e617-4128-b223-b332ae653271";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BADF-3EE0";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/BADF-3EE0";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/7abfd5eb-d792-47f9-b042-d671bd8ef681"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/7abfd5eb-d792-47f9-b042-d671bd8ef681"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -37,52 +35,50 @@
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
- /*
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  /* # Enable OpenGL
+       hardware.opengl = {
+         enable = true;
+         driSupport = true;
+         driSupport32Bit = true;
+       };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+       # Load nvidia driver for Xorg and Wayland
+       services.xserver.videoDrivers = ["nvidia"];
 
-  hardware.nvidia = {
+       hardware.nvidia = {
 
-    # Modesetting is required.
-    modesetting.enable = true;
+         # Modesetting is required.
+         modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
-    powerManagement.enable = false;
+         # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+         # Enable this if you have graphical corruption issues or application crashes after waking
+         # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+         # of just the bare essentials.
+         powerManagement.enable = false;
 
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+         # Fine-grained power management. Turns off GPU when not in use.
+         # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+         powerManagement.finegrained = false;
 
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+         # Use the NVidia open source kernel module (not to be confused with the
+         # independent third-party "nouveau" open source driver).
+         # Support is limited to the Turing and later architectures. Full list of
+         # supported GPUs is at:
+         # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+         # Only available from driver 515.43.04+
+         # Currently alpha-quality/buggy, so false is currently the recommended setting.
+         open = false;
 
-    # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
-    nvidiaSettings = true;
+         # Enable the Nvidia settings menu,
+     	# accessible via `nvidia-settings`.
+         nvidiaSettings = true;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+         # Optionally, you may need to select the appropriate driver version for your specific GPU.
+         package = config.boot.kernelPackages.nvidiaPackages.stable;
+       };
   */
   services.xserver.dpi = 96;
-  environment.variables = {
-    GDK_SCALE = "0.5";
-  };
+  environment.variables = { GDK_SCALE = "0.5"; };
 }
