@@ -2,10 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [ ./gc.nix ./tailscale.nix ./fish.nix ./docker.nix ./locale.nix ];
+  imports = [
+    ./gc.nix
+    ./software/tailscale.nix
+    ./software/fish.nix
+    ./software/docker.nix
+    ./locale.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

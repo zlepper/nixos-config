@@ -4,7 +4,7 @@
   inputs = {
     # NixOS official package source, using the nixos-23.11 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    # unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       # The `follows` keyword in inputs is used for inheritance.
@@ -15,89 +15,87 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager,
-    #  unstable, 
-    ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
 
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        # Import the previous configuration.nix we used,
+        # so the old configuration file still takes effect
+        ./configuration.nix
 
-          # make home-manager as a module of nixos
-          # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+        # make home-manager as a module of nixos
+        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
 
-            home-manager.users.rasmus = import ./home.nix;
-          }
-        ];
-      };
-
-      nixosConfigurations.nixos-hyperv-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
-
-          ./hyper-vm-hardware-configuration.nix
-
-          # make home-manager as a module of nixos
-          # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.rasmus = import ./home.nix;
-          }
-        ];
-      };
-
-      nixosConfigurations.rhdh-work-desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./work-desktop.nix
-
-          # make home-manager as a module of nixos
-          # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.rasmus = import ./home.nix;
-          }
-        ];
-      };
-
-      nixosConfigurations.home-laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        # specialArgs = { inherit unstable; };
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./home-laptop.nix
-
-          # make home-manager as a module of nixos
-          # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.rasmus = import ./home.nix;
-          }
-        ];
-      };
+          home-manager.users.rasmus = import ./home.nix;
+        }
+      ];
     };
+
+    nixosConfigurations.nixos-hyperv-vm = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        # Import the previous configuration.nix we used,
+        # so the old configuration file still takes effect
+        ./configuration.nix
+
+        ./hyper-vm-hardware-configuration.nix
+
+        # make home-manager as a module of nixos
+        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          home-manager.users.rasmus = import ./home.nix;
+        }
+      ];
+    };
+
+    nixosConfigurations.rhdh-work-desktop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        # Import the previous configuration.nix we used,
+        # so the old configuration file still takes effect
+        ./work-desktop.nix
+
+        # make home-manager as a module of nixos
+        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          home-manager.users.rasmus = import ./home.nix;
+        }
+      ];
+    };
+
+    nixosConfigurations.home-laptop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = inputs;
+      modules = [
+        # Import the previous configuration.nix we used,
+        # so the old configuration file still takes effect
+        ./home-laptop.nix
+
+        # make home-manager as a module of nixos
+        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          home-manager.users.rasmus = import ./home.nix;
+        }
+      ];
+    };
+  };
 }

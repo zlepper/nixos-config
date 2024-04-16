@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let onePassPath = "~/.1password/agent.sock";
 in {
@@ -9,6 +9,18 @@ in {
   # home.file.".xxx".text = ''
   #     xxx
   # '';
+
+  home.file.".config/kate/lspclient/settings.json".text = ''
+    {
+      "servers": {
+        "nix": {
+          "command": ["nil"],
+          "url": "https://github.com/oxalica/nil",
+          "highlightingModeRegex": "^Nix$"
+        }
+      }
+    }
+  '';
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -29,6 +41,7 @@ in {
     dive
     tree
     remmina
+    nil
   ];
 
   # basic configuration of git, please change to your own
@@ -52,6 +65,8 @@ in {
     enable = true;
     #extraConfig = "pinentry-program ${pkgs.pinentry-gtk2}/bin/pinentry";
   };
+
+  xsession.numlock.enable = true;
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
