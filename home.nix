@@ -6,6 +6,7 @@ in {
   imports = [
     ./software/development/dotnet.nix
     ./software/development/javascript.nix
+    ./software/development/rust.nix
   ];
 
   home.username = "rasmus";
