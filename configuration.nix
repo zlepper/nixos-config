@@ -136,11 +136,7 @@
     gscreenshot
     insomnia
     remmina
-    imagemagick
-    ffmpeg_5-headless
-    ghostscript
-    libreoffice-fresh
-    libmediainfo
+    discord
   #  wget
   ];
 
@@ -176,34 +172,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  fonts = {
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-emoji
-    ];
-
-    fontconfig = {
-      # Fixes pixelation
-      antialias = true;
-
-      # Fixes antialiasing blur
-      hinting = {
-        enable = true;
-        style = "full"; # no difference
-        autohint = true; # no difference
-      };
-
-      subpixel = {
-        # Makes it bolder
-        rgba = "rgb";
-        lcdfilter = "default"; # no difference
-      };
-    };
-  };
-
-
-  
 
   # Limit the number of generations to keep
   boot.loader.systemd-boot.configurationLimit = 10;
