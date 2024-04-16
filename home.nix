@@ -3,14 +3,9 @@
 let onePassPath = "~/.1password/agent.sock";
 in {
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
-
   imports = [
     ./software/development/dotnet.nix
+    ./software/development/javascript.nix
   ];
 
   home.username = "rasmus";
