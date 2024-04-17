@@ -41,7 +41,8 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "unstableNixpkgs": "unstableNixpkgs"
+        "unstableNixpkgs": "unstableNixpkgs",
+        "writersidePrNixpkgs": "writersidePrNixpkgs"
       }
     },
     "unstableNixpkgs": {
@@ -56,6 +57,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "writersidePrNixpkgs": {
+      "locked": {
+        "lastModified": 1713375631,
+        "narHash": "sha256-Mvp17eodT370BSI3ZlLfvXdMvEFXH5BukijJbqOfvO8=",
+        "owner": "zlepper",
+        "repo": "nixpkgs",
+        "rev": "ca13af33dc7bb47b8e10269a06ec57a064a999cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zlepper",
+        "ref": "init-jetbrains-writeside",
         "repo": "nixpkgs",
         "type": "github"
       }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 
 let onePassPath = "~/.1password/agent.sock";
 in {
@@ -8,6 +8,7 @@ in {
     ./software/development/javascript.nix
     ./software/development/rust.nix
     ./software/development/go.nix
+    ./software/development/writerside.nix
   ];
 
   home.username = "rasmus";
@@ -52,6 +53,7 @@ in {
     nil
     nix-tree
     xclip
+    libtree
   ];
 
   # basic configuration of git, please change to your own
