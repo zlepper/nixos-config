@@ -50,6 +50,8 @@ in {
     tree
     remmina
     nil
+    nix-tree
+    xclip
   ];
 
   # basic configuration of git, please change to your own
