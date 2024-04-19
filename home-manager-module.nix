@@ -1,7 +1,10 @@
-{lib, config, unstable, writerside, ...}:
+{lib, config, unstable, writerside, home-manager, ...}:
 
 {
+   imports = [home-manager.nixosModules.home-manager];
+
    options.use-home-manager.enable = lib.mkEnableOption "enable home manager with my settings";
+
    config = lib.mkIf config.use-home-manager.enable {
         home-manager = {
             useGlobalPkgs = true;

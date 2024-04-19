@@ -20,6 +20,12 @@
   let
       unstablePkgs = import unstableNixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
       writersidePrPkgs = import writersidePrNixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
+
+      allInputs = inputs // {
+        unstable = unstablePkgs;
+        writerside = writersidePrPkgs;
+      };
+
   in {
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
@@ -32,19 +38,7 @@
         # so the old configuration file still takes effect
         ./configuration.nix
 
-        # make home-manager as a module of nixos
-        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.users.rasmus = import ./home.nix;
-          home-manager.extraSpecialArgs = {
-            unstable = unstablePkgs;
-            writerside = writersidePrPkgs;
-          };
-        }
+        ./home-manager-module.nix
       ];
     };
 
@@ -57,20 +51,7 @@
 
         ./hyper-vm-hardware-configuration.nix
 
-        # make home-manager as a module of nixos
-        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.users.rasmus = import ./home.nix;
-
-          home-manager.extraSpecialArgs = {
-            unstable = unstablePkgs;
-            writerside = writersidePrPkgs;
-          };
-        }
+        ./home-manager-module.nix
       ];
     };
 
@@ -80,36 +61,18 @@
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
         ./work-desktop.nix
-
-        # make home-manager as a module of nixos
-        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.users.rasmus = import ./home.nix;
-
-          home-manager.extraSpecialArgs = {
-            unstable = unstablePkgs;
-            writerside = writersidePrPkgs;
-          };
-        }
+        ./home-manager-module.nix
       ];
     };
 
     nixosConfigurations.home-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = inputs // {
-        unstable = unstablePkgs;
-        writerside = writersidePrPkgs;
-      };
+      specialArgs = allInputs;
       modules = [
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
         ./home-laptop.nix
         ./home-manager-module.nix
-        home-manager.nixosModules.home-manager
       ];
     };
   };
