@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{lib, config, unstable, writerside, ...}:
 
 {
    options.use-home-manager.enable = lib.mkEnableOption "enable home manager with my settings";
@@ -8,6 +8,9 @@
             useUserPackages = true;
             # I would put this elsewhere
             users.rasmus = import ./home.nix;
+            extraSpecialArgs = {
+                inherit unstable writerside;
+            };
         };
    };
 }

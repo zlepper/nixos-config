@@ -109,20 +109,7 @@
         # so the old configuration file still takes effect
         ./home-laptop.nix
         ./home-manager-module.nix
-/*
-        # make home-manager as a module of nixos
-        # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
         home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.extraSpecialArgs = {
-            unstable = unstablePkgs;
-            writerside = writersidePrPkgs;
-          };
-          home-manager.users.rasmus = import ./home.nix;
-        }*/
       ];
     };
   };
