@@ -70,6 +70,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [ vim git ];
 
+  # Set vim as the default editor
+  environment.variables.EDITOR = "vim";
+
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;

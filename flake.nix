@@ -40,6 +40,10 @@
           home-manager.useUserPackages = true;
 
           home-manager.users.rasmus = import ./home.nix;
+          home-manager.extraSpecialArgs = {
+            unstable = unstablePkgs;
+            writerside = writersidePrPkgs;
+          };
         }
       ];
     };
@@ -61,6 +65,11 @@
           home-manager.useUserPackages = true;
 
           home-manager.users.rasmus = import ./home.nix;
+
+          home-manager.extraSpecialArgs = {
+            unstable = unstablePkgs;
+            writerside = writersidePrPkgs;
+          };
         }
       ];
     };
@@ -80,6 +89,11 @@
           home-manager.useUserPackages = true;
 
           home-manager.users.rasmus = import ./home.nix;
+
+          home-manager.extraSpecialArgs = {
+            unstable = unstablePkgs;
+            writerside = writersidePrPkgs;
+          };
         }
       ];
     };
