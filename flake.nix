@@ -100,12 +100,16 @@
 
     nixosConfigurations.home-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = inputs;
+      specialArgs = inputs // {
+        unstable = unstablePkgs;
+        writerside = writersidePrPkgs;
+      };
       modules = [
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
         ./home-laptop.nix
-
+        ./home-manager-module.nix
+/*
         # make home-manager as a module of nixos
         # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
         home-manager.nixosModules.home-manager
@@ -118,7 +122,7 @@
             writerside = writersidePrPkgs;
           };
           home-manager.users.rasmus = import ./home.nix;
-        }
+        }*/
       ];
     };
   };
