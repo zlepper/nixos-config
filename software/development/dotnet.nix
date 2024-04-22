@@ -19,7 +19,7 @@ in {
 
 
     home.packages = [
-        pkgs.dotnetCorePackages.sdk_8_0
+        unstable.dotnetCorePackages.dotnet_8.sdk
         riderWithMediaInfo
     ];
 }

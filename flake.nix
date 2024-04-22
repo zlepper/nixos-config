@@ -5,7 +5,6 @@
     # NixOS official package source, using the nixos-23.11 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     unstableNixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    writersidePrNixpkgs.url = "github:zlepper/nixpkgs/init-jetbrains-writeside";
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       # The `follows` keyword in inputs is used for inheritance.
@@ -16,14 +15,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, writersidePrNixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, ... }@inputs:
   let
       unstablePkgs = import unstableNixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
-      writersidePrPkgs = import writersidePrNixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 
       allInputs = inputs // {
         unstable = unstablePkgs;
-        writerside = writersidePrPkgs;
       };
 
   in {
