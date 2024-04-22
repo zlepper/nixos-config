@@ -5,6 +5,6 @@
 
   networking.hostName = "rhdh-work-desktop";
 
-  environment.systemPackages = with pkgs; [ ghostscript ];
+  environment.systemPackages = with pkgs; [ ghostscript lens ];
   use-home-manager.enable = true;
 }
