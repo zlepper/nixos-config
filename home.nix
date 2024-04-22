@@ -62,7 +62,14 @@ in {
     userName = "zlepper";
     userEmail = "hansen13579@gmail.com";
     lfs.enable = true;
-    extraConfig = { push = { autoSetupRemote = true; }; };
+    extraConfig = {
+      push = { 
+        autoSetupRemote = true;
+      };
+      pull = {
+        rebase = true;
+      };
+    };
   };
 
   programs.ssh = {
