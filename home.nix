@@ -54,6 +54,7 @@ in {
     nix-tree
     xclip
     libtree
+    unstable.jetbrains.datagrip
   ];
 
   # basic configuration of git, please change to your own
