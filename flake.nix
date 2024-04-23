@@ -73,5 +73,14 @@
         ./home-manager-module.nix
       ];
     };
+
+    nixosConfigurations.home-desktop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = allInputs;
+      modules = [
+        ./home-desktop.nix
+        ./home-manager-module.nix
+      ];
+    };
   };
 }
