@@ -55,6 +55,8 @@ in {
     xclip
     libtree
     unstable.jetbrains.datagrip
+    kubectl
+    azure-cli
   ];
 
   # basic configuration of git, please change to your own
