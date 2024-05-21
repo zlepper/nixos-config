@@ -9,7 +9,10 @@
       lens
       meshlab
       unstable.ffmpeg_7-full
-      unstable.imagemagick
+      unstable.imagemagick 
+      pulumi
+      flyctl
+      slack
     ];
   use-home-manager.enable = true;
 

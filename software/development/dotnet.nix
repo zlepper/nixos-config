@@ -3,6 +3,10 @@
 let
  runtimeDeps = lib.makeLibraryPath [
     pkgs.libmediainfo
+    pkgs.xorg.libX11
+    pkgs.xorg.libX11.dev
+    pkgs.xorg.libICE
+    pkgs.xorg.libSM
  ];
 
  riderWithMediaInfo = pkgs.symlinkJoin {
