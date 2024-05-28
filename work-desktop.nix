@@ -10,9 +10,11 @@
       meshlab
       unstable.ffmpeg_7-full
       unstable.imagemagick 
-      pulumi
+      unstable.pulumi-bin
       flyctl
       slack
+      filezilla
+      unstable.postman
     ];
   use-home-manager.enable = true;
 
