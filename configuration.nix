@@ -24,8 +24,8 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -58,8 +58,8 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = false;
-  services.xserver.displayManager.autoLogin.user = "rasmus";
+  services.displayManager.autoLogin.enable = false;
+  services.displayManager.autoLogin.user = "rasmus";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
