@@ -68,7 +68,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ vim git ];
+  environment.systemPackages = with pkgs; [ vim git speedcrunch ];
 
   # Set vim as the default editor
   environment.variables.EDITOR = "vim";
