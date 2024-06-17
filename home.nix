@@ -43,7 +43,6 @@ in {
     kgpg
     google-chrome
     spotify
-    gscreenshot
     discord
     firefox
     kate
