@@ -8,13 +8,13 @@
   environment.systemPackages = with pkgs; [
       lens
       meshlab
-      unstable.ffmpeg_7-full
-      unstable.imagemagick 
-      unstable.pulumi-bin
+      ffmpeg_7-full
+      imagemagick 
+      pulumi-bin
       flyctl
       slack
       filezilla
-      unstable.postman
+      postman
     ];
   use-home-manager.enable = true;
 
