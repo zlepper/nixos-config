@@ -15,6 +15,7 @@
       slack
       filezilla
       postman
+      snyk
     ];
   use-home-manager.enable = true;
 

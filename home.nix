@@ -79,10 +79,6 @@ in {
     extraConfig = ''
       Host *
           IdentityAgent ${onePassPath}
-      Host github.com
-          Hostname ssh.github.com
-          Port 443
-          User git
     '';
   };
 
