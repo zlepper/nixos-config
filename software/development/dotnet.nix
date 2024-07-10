@@ -16,7 +16,7 @@ let
     postBuild = ''
         wrapProgram $out/bin/rider \
           --suffix "LD_LIBRARY_PATH" : "${runtimeDeps}" \
-          --suffix "PATH" : "${lib.strings.makeBinPath [pkgs.ghostscript pkgs.ffmpeg pkgs.imagemagick pkgs.libreoffice pkgs.exiftool]}" \
+          --suffix "PATH" : "${lib.strings.makeBinPath [pkgs.ghostscript pkgs.ffmpeg pkgs.imagemagickBig pkgs.libreoffice pkgs.exiftool]}" \
           --suffix "COREFONTS_PATH" : "${pkgs.corefonts}/share/fonts/truetype" \
           --suffix "FONTCONFIG_PATH" : "/etc/fonts"
     '';

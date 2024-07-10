@@ -56,6 +56,8 @@ in {
     unstable.jetbrains.datagrip
     kubectl
     azure-cli
+    vlc
+    gimp
   ];
 
   # basic configuration of git, please change to your own
