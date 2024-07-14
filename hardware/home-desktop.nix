@@ -26,6 +26,11 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  fileSystems."/home/rasmus/storage1" = {
+     device = "/dev/disk/by-uuid/2dd5ce8f-0c70-498e-8421-71d04153ef28";
+     fsType = "ext4";
+  };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/6fa26795-84fb-4553-b8fe-0545eb1d2feb"; }
     ];
@@ -42,3 +47,5 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
+
+
