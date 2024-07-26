@@ -16,7 +16,7 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d4a4e0b4-f288-40e8-9549-cacd139cb3cd";
+    { device = "/dev/disk/by-uuid/c9a5db8e-dee9-44d7-be20-811f0d86dfda";
       fsType = "ext4";
     };
 
@@ -25,11 +25,6 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-
-  fileSystems."/home/rasmus/storage1" = {
-     device = "/dev/disk/by-uuid/2dd5ce8f-0c70-498e-8421-71d04153ef28";
-     fsType = "ext4";
-  };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/6fa26795-84fb-4553-b8fe-0545eb1d2feb"; }
