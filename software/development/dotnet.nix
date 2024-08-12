@@ -26,7 +26,7 @@ in {
 
 
     home.packages = [
-        (with unstable.dotnetCorePackages; combinePackages [dotnet_8.sdk sdk_7_0])
+        (with unstable.dotnetCorePackages; combinePackages [sdk_8_0 sdk_7_0])
         riderWithMediaInfo
     ];
 }
