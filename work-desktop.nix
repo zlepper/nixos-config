@@ -8,7 +8,6 @@
   environment.systemPackages = with pkgs; [
       lens
       meshlab
-      ffmpeg_7-full
       imagemagick 
       pulumi-bin
       flyctl
