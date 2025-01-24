@@ -17,6 +17,7 @@
       snyk
     ];
   use-home-manager.enable = true;
+  services.envfs.enable = true;
 
   fonts = {
      enableDefaultPackages = true;
