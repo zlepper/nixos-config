@@ -25,7 +25,10 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  programs.xwayland.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -75,6 +78,9 @@
 
   # Set vim as the default editor
   environment.variables.EDITOR = "vim";
+
+  # Automatically enable numlock on login
+  services.displayManager.sddm.autoNumlock = true;
 
   programs._1password.enable = true;
   programs._1password-gui = {
