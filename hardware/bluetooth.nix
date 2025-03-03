@@ -5,7 +5,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ bluedevil ];
+  environment.systemPackages = with pkgs; [ kdePackages.bluedevil ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot =
