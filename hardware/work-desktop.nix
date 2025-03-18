@@ -24,10 +24,21 @@
   boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270".device =
     "/dev/disk/by-uuid/d26f5db3-adad-472d-8244-27a2e65bb270";
 
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/808b67f2-8102-462e-af1a-0b0b860c8ea2";
+    fsType = "ext4";
+  };
+
+  boot.initrd.luks.devices."luks-ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1".device =
+    "/dev/disk/by-uuid/ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1";
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/F6A6-D664";
     fsType = "vfat";
   };
+
+programs.partition-manager.enable = true;
+
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995"; }];
