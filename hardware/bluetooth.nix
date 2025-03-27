@@ -17,7 +17,7 @@
   systemd.targets."bluetooth".after = [ "systemd-tmpfiles-setup.service" ];
 
   systemd.services."bluetooth".serviceConfig = {
-    StateDirectory = ""; # <<< minimal solution, applied in override.conf
+    # StateDirectory = ""; # <<< minimal solution, applied in override.conf
 
     # Seems unnecessary, but useful to keep in mind if bluetooth
     # defaults get locked down even more:
