@@ -21,6 +21,10 @@ in {
       filezilla
       postman
       snyk
+      libreoffice-fresh
+      python312
+      virtualenv
+      python312Packages.virtualenv
     ] ++ [pulumi];
   use-home-manager.enable = true;
   services.envfs.enable = true;
