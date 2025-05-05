@@ -22,6 +22,9 @@ in {
       postman
       snyk
       libreoffice-fresh
+      wireshark
+      kubernetes-helm
+      jq
       python312
       virtualenv
       python312Packages.virtualenv

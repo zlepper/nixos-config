@@ -1,6 +1,13 @@
 { pkgs, unstable, ... }:
 
 let onePassPath = "~/.1password/agent.sock";
+  unfuck-lfs-script = pkgs.writeShellScriptBin "unfuck-lfs" ''
+	git rm --cached -r .
+        git reset --hard
+        git rm .gitattributes
+        git reset .
+        git checkout .
+  '';
 in {
 
   imports = [
@@ -58,6 +65,7 @@ in {
     azure-cli
     vlc
     gimp
+    unfuck-lfs-script
   ];
 
   # basic configuration of git, please change to your own
