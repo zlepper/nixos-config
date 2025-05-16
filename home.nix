@@ -65,6 +65,7 @@ in {
     vlc
     gimp
     unfuck-lfs-script
+    qdirstat
   ];
 
   # basic configuration of git, please change to your own

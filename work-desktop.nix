@@ -28,6 +28,8 @@ in {
       python312
       virtualenv
       python312Packages.virtualenv
+      openssl
+      tmux      
     ] ++ [pulumi];
   use-home-manager.enable = true;
   services.envfs.enable = true;
