@@ -47,12 +47,11 @@ in {
     btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
-    kgpg
     google-chrome
     spotify
     discord
     firefox
-    kate
+    kdePackages.kate
     dive
     tree
     remmina
