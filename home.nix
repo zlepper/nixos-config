@@ -1,6 +1,6 @@
 { pkgs, unstable, ... }:
 
-let onePassPath = "~/.1password/agent.sock";
+let onePassPath = "/home/rasmus/.1password/agent.sock";
   unfuck-lfs-script = pkgs.writeShellScriptBin "unfuck-lfs" ''
 	git rm --cached -r .
         git reset --hard
@@ -91,6 +91,7 @@ in {
           IdentityAgent ${onePassPath}
     '';
   };
+  home.sessionVariables.SSH_AUTH_SOCK = onePassPath;
 
   services.gpg-agent = {
     enable = true;

@@ -30,6 +30,8 @@ in {
       python312Packages.virtualenv
       openssl
       tmux      
+      unstable.jetbrains.gateway
+      gh
     ] ++ [pulumi];
   use-home-manager.enable = true;
   services.envfs.enable = true;
