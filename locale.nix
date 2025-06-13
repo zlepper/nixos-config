@@ -21,9 +21,7 @@
   };
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "dk";
-  };
+  services.xserver.xkb = { layout = "dk"; };
 
   # Configure console keymap
   console.keyMap = "dk-latin1";

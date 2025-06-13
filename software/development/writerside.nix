@@ -1,6 +1,1 @@
-{unstable, ...}:
-{
-    home.packages = [
-      unstable.jetbrains.writerside
-    ];
-}
+{ unstable, ... }: { home.packages = [ unstable.jetbrains.writerside ]; }

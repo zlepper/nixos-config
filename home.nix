@@ -1,12 +1,13 @@
 { pkgs, unstable, ... }:
 
-let onePassPath = "/home/rasmus/.1password/agent.sock";
+let
+  onePassPath = "/home/rasmus/.1password/agent.sock";
   unfuck-lfs-script = pkgs.writeShellScriptBin "unfuck-lfs" ''
-	git rm --cached -r .
-        git reset --hard
-        git rm .gitattributes
-        git reset .
-        git checkout .
+    	git rm --cached -r .
+            git reset --hard
+            git rm .gitattributes
+            git reset .
+            git checkout .
   '';
 in {
 
@@ -75,12 +76,8 @@ in {
     userEmail = "hansen13579@gmail.com";
     lfs.enable = true;
     extraConfig = {
-      push = { 
-        autoSetupRemote = true;
-      };
-      pull = {
-        rebase = true;
-      };
+      push = { autoSetupRemote = true; };
+      pull = { rebase = true; };
     };
   };
 

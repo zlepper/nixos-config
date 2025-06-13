@@ -1,26 +1,16 @@
-{unstable, pkgs, lib, ...}:
+{ unstable, pkgs, lib, ... }:
 
 let
- runtimeDeps = lib.makeLibraryPath [
-    pkgs.libpcap
- ];
+  runtimeDeps = lib.makeLibraryPath [ pkgs.libpcap ];
 
- rust-rover = pkgs.symlinkJoin {
+  rust-rover = pkgs.symlinkJoin {
     name = "rust-rover";
     paths = [ unstable.jetbrains.rust-rover ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-        wrapProgram $out/bin/rust-rover \
-          --suffix "LIBPCAP_LIBDIR" : "${runtimeDeps}" \
+      wrapProgram $out/bin/rust-rover \
+        --suffix "LIBPCAP_LIBDIR" : "${runtimeDeps}" \
     '';
-    };
-in {
-    home.packages = [
-        rust-rover
-        pkgs.rustup
-        pkgs.clang
-        pkgs.heaptrack
-    ];
-}
-
+  };
+in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack ]; }
 

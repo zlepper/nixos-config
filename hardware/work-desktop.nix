@@ -37,8 +37,7 @@
     fsType = "vfat";
   };
 
-programs.partition-manager.enable = true;
-
+  programs.partition-manager.enable = true;
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995"; }];

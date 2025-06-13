@@ -71,10 +71,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [ vim git speedcrunch ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "dotnet-sdk-wrapped-7.0.410"
-    "dotnet-sdk-7.0.410"
-  ];
+  nixpkgs.config.permittedInsecurePackages =
+    [ "dotnet-sdk-wrapped-7.0.410" "dotnet-sdk-7.0.410" ];
 
   # Set vim as the default editor
   environment.variables.EDITOR = "vim";

@@ -1,7 +1,3 @@
-{unstable, pkgs, ...}:
-{
-    home.packages = [
-        pkgs.go
-        unstable.jetbrains.goland
-    ];
+{ unstable, pkgs, ... }: {
+  home.packages = [ pkgs.go unstable.jetbrains.goland ];
 }

@@ -4,18 +4,23 @@ let
   # Don't install the individual provider packages as we install them directly
   # as part of our automation scripts.
   pulumi = unstable.pulumi-bin.overrideAttrs (finalAtrs: previousAttrs: {
-	srcs = lib.lists.take 1 previousAttrs.srcs;
-        postUnpack = "";
+    srcs = lib.lists.take 1 previousAttrs.srcs;
+    postUnpack = "";
   });
 in {
-  imports = [ ./hardware/work-desktop.nix ./configuration.nix ];
+  imports = [
+    ./hardware/work-desktop.nix
+    ./configuration.nix
+    ./hardware/virtualization.nix
+  ];
 
   networking.hostName = "rhdh-work-desktop";
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs;
+    [
       lens
       meshlab
-      imagemagick 
+      imagemagick
       flyctl
       slack
       filezilla
@@ -29,22 +34,22 @@ in {
       virtualenv
       python312Packages.virtualenv
       openssl
-      tmux      
+      tmux
       unstable.jetbrains.gateway
       gh
-    ] ++ [pulumi];
+    ] ++ [ pulumi ];
   use-home-manager.enable = true;
   services.envfs.enable = true;
 
   fonts = {
-     enableDefaultPackages = true;
-     packages = with pkgs; [
-        noto-fonts
-        corefonts
-        caladea
-        carlito
-        helvetica-neue-lt-std
-        liberation_ttf
-     ];
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      corefonts
+      caladea
+      carlito
+      helvetica-neue-lt-std
+      liberation_ttf
+    ];
   };
 }
