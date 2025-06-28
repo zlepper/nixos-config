@@ -17,6 +17,7 @@ in {
     ./software/development/rust.nix
     ./software/development/go.nix
     ./software/development/writerside.nix
+    ./software/llm.nix
   ];
 
   home.username = "rasmus";
