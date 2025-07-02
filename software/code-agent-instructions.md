@@ -62,6 +62,8 @@
 ### 5. Iterative Development & Validation
 
 * **Planning:** For non-trivial changes, propose a detailed plan before beginning implementation.
+* **Atomic Change Sets:** When implementing changes, strive to perform a set of **"atomic" or "transactional" modifications** across one or multiple files before attempting to validate. This means making all necessary, interdependent changes that bring the codebase to a temporarily consistent or compilable state.
+* **Validation Point:** Only after completing a logical set of interdependent changes (the "atomic" unit) should the agent run checks, linters, and attempt to compile or validate the code. This acknowledges that code may be in an invalid state during propagation of changes across files.
 * **Test Case Identification:** Instead of writing tests first, identify and document potential test cases, edge cases, and validation scenarios within the `context.md` file. This helps outline expected behavior and informs future test creation once the overall code structure is clearer.
 * **Unit Test Best Practices:** When documenting test cases or later writing tests, adhere to these principles:
     * **Focus on Behavior, Not Just Isolation:** Tests should verify the expected behavior of a unit or a small group of collaborating units. While isolation is important, it should not come at the cost of testing real-world interactions.
@@ -71,7 +73,6 @@
     * **Direct Interface Implementation for Mocks:** If a mock is absolutely required (e.g., for an external HTTP call), implement the interface directly within the test or a test helper class to provide the required behavior, rather than using mocking frameworks that might obscure behavior.
     * **Clarity:** Test names should clearly describe what they are testing. Test code should be readable and straightforward.
     * **Repeatability:** Tests should produce consistent results every time they run, regardless of the environment or order of execution.
-* **Validation:** Iteratively run checks, linters, and continually compile the code to validate changes and catch issues early.
 * **Learning & Adaptation:** Update `context.md` to document significant approaches taken, challenges faced, and lessons learned during iterative development.
 
 ---
@@ -142,5 +143,3 @@
     * Recommendations for local machine tools, IDE extensions, or additional "MCP servers" (if applicable to your setup) that could augment its performance or access.
     * Refinements to the existing `Agent Context` instructions based on its experience.
 * **Mechanism:** These suggestions should be presented clearly in the chat, potentially with a note to update `context.md` or `learnings.md` if the suggestion is adopted.
-
-
