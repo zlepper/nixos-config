@@ -69,6 +69,7 @@ in {
     unfuck-lfs-script
     qdirstat
     ripgrep
+    obsidian
   ];
 
   # basic configuration of git, please change to your own
