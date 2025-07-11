@@ -5,6 +5,6 @@
 
   networking.hostName = "home-desktop";
 
-  environment.systemPackages = with pkgs; [ lens freecad postman unstable.claude-code ];
+  environment.systemPackages = with pkgs; [ lens freecad postman unstable.claude-code mono ];
   use-home-manager.enable = true;
 }
