@@ -37,6 +37,8 @@ in {
       tmux
       unstable.jetbrains.gateway
       gh
+      unstable.claude-code
+      ripgrep
     ] ++ [ pulumi ];
   use-home-manager.enable = true;
   services.envfs.enable = true;
