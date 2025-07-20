@@ -12,5 +12,5 @@ let
         --suffix "LIBPCAP_LIBDIR" : "${runtimeDeps}" \
     '';
   };
-in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack ]; }
+in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack pkgs.cargo-expand ]; }
 

@@ -37,7 +37,6 @@
     * Suggestions for potential future refactorings that could benefit code *outside* the current editing scope, highlighting relevant locations if possible.
     * Any assumptions made or clarifications sought during the process.
 * **Readability:** `report.md` must be standalone and self-contained, suitable for inclusion in pull requests or for handover to other developers or agents.
-* **Conciseness in Chat:** Keep direct reports in the chat window condensed. If the agent adds something new or significant to `report.md` or `context.md` that the human should review, it should specifically point this out in the chat.
 
 ---
 
@@ -81,7 +80,7 @@
 
 * **Start Point:** Begin by thoroughly reading `context.md` (if it exists). If it's a new task, formulate and outline initial understanding of the request.
 * **Project Context:** Confirm the overall project structure and identify all relevant files and dependencies.
-* **Plan Proposal:** For non-trivial tasks, propose a clear plan of action and **await explicit confirmation from the human** before beginning any code modifications. If the task is considered trivial and straightforward, the agent can proceed directly with implementation, as the IDE will provide real-time visibility and control over changes.
+* **Plan Proposal:** For non-trivial tasks, propose a clear plan of action and **await explicit confirmation from the human** before beginning any code modifications.
 
 ---
 
@@ -103,11 +102,11 @@
 
 ### 8. Learning & Self-Improvement (Agent's Internal Reflections)
 
-* **Learning File:** Maintain a separate `learnings.md` file (or similar, e.g., `agent_reflection.md`) for the agent's internal reflections and lessons learned from past mistakes or challenging scenarios.
-* **Initial Action:** When a new session begins, the agent **must always read the `learnings.md` file first**. If the file does not exist, the agent should highlight this to the human and suggest creating one for future reflections. It does not need to re-read it for every subsequent message within the same continuous session.
+* **Learning File:** Maintain a separate `AGENT-KNOWLEDGE.md` file for the agent's internal reflections and lessons learned from past mistakes or challenging scenarios.
+* **Initial Action:** When a new session begins, the agent **must always read the `AGENT-KNOWLEDGE.md` file first**. If the file does not exist, the agent should highlight this to the human and suggest creating one for future reflections. It does not need to re-read it for every subsequent message within the same continuous session.
 * **Purpose:** This file is distinct from `UTILITIES.md` (which is for codebase-specific utilities) and `context.md` (which is for current task context). Its purpose is to act as a memory for the agent's own operational improvements.
 * **Content:** Document common pitfalls encountered, successful strategies for complex problems, specific types of errors made and how they were resolved, or recurring ambiguities that required human clarification. The content should be focused on improving the *agent's own workflow and decision-making*.
-* **Application:** Refer to `learnings.md` periodically to inform future planning, problem-solving approaches, and to avoid repeating past errors.
+* **Application:** Refer to `AGENT-KNOWLEDGE.md` periodically to inform future planning, problem-solving approaches, and to avoid repeating past errors.
 
 ---
 
@@ -128,7 +127,7 @@
 
 ### 3. Privacy & Security Best Practices (Agent's Conduct)
 
-* **Sensitive Data Avoidance:** The agent must be vigilant to avoid logging sensitive information (e.g., API keys, credentials, personally identifiable information (PII)) in `context.md`, `report.md`, `learnings.md`, or direct chat unless explicitly required and appropriately redacted/secured by the human's instruction or environment.
+* **Sensitive Data Avoidance:** The agent must be vigilant to avoid logging sensitive information (e.g., API keys, credentials, personally identifiable information (PII)) in `context.md`, `report.md`, `AGENT-KNOWLEDGE.md`, or direct chat unless explicitly required and appropriately redacted/secured by the human's instruction or environment.
 * **Flagging Sensitive Operations:** If a task *requires* handling or processing highly sensitive data, the agent should, if possible, flag this to the human and request explicit confirmation or guidance before proceeding.
 
 ---
@@ -142,4 +141,4 @@
     * Better ways for the human to phrase requests or provide context.
     * Recommendations for local machine tools, IDE extensions, or additional "MCP servers" (if applicable to your setup) that could augment its performance or access.
     * Refinements to the existing `Agent Context` instructions based on its experience.
-* **Mechanism:** These suggestions should be presented clearly in the chat, potentially with a note to update `context.md` or `learnings.md` if the suggestion is adopted.
+* **Mechanism:** These suggestions should be presented clearly in the chat, potentially with a note to update `context.md` or `AGENT-KNOWLEDGE.md` if the suggestion is adopted.

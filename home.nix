@@ -68,6 +68,7 @@ in {
     gimp
     unfuck-lfs-script
     qdirstat
+    ripgrep
   ];
 
   # basic configuration of git, please change to your own

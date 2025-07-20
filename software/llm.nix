@@ -5,4 +5,5 @@ let
 in
 {
   home.file.".config/github-copilot/intellij/global-copilot-instructions.md".text = instructions;
+  home.file.".claude/CLAUDE.md".text = instructions;
 }
