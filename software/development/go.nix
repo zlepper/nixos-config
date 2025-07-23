@@ -1,3 +1,3 @@
-{ unstable, pkgs, ... }: {
-  home.packages = [ pkgs.go unstable.jetbrains.goland ];
+{ pkgs, ... }: {
+  home.packages = [ pkgs.go pkgs.jetbrains.goland ];
 }

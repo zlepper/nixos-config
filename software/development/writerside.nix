@@ -1,1 +1,1 @@
-{ unstable, ... }: { home.packages = [ unstable.jetbrains.writerside ]; }
+{ pkgs, ... }: { home.packages = [ pkgs.jetbrains.writerside ]; }

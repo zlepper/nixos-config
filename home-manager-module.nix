@@ -1,4 +1,4 @@
-{ lib, config, unstable, writerside, home-manager, ... }:
+{ lib, config, unstable, home-manager, ... }:
 
 {
   imports = [ home-manager.nixosModules.home-manager ];
@@ -12,7 +12,7 @@
       useUserPackages = true;
       # I would put this elsewhere
       users.rasmus = import ./home.nix;
-      extraSpecialArgs = { inherit unstable writerside; };
+      extraSpecialArgs = { inherit unstable; };
     };
   };
 }

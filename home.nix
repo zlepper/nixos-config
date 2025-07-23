@@ -1,4 +1,4 @@
-{ pkgs, unstable, ... }:
+{ pkgs, ... }:
 
 let
   onePassPath = "/home/rasmus/.1password/agent.sock";
@@ -61,7 +61,7 @@ in {
     nix-tree
     xclip
     libtree
-    unstable.jetbrains.datagrip
+    pkgs.jetbrains.datagrip
     kubectl
     azure-cli
     vlc

@@ -35,7 +35,7 @@ in {
       python312Packages.virtualenv
       openssl
       tmux
-      unstable.jetbrains.gateway
+      pkgs.jetbrains.gateway
       gh
       unstable.claude-code
       ripgrep

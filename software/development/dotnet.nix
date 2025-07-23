@@ -1,4 +1,4 @@
-{ unstable, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [
@@ -18,7 +18,7 @@ let
 
   riderWithMediaInfo = pkgs.symlinkJoin {
     name = "rider";
-    paths = [ unstable.jetbrains.rider ];
+    paths = [ pkgs.jetbrains.rider ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/rider \
