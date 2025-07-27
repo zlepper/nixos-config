@@ -70,6 +70,7 @@ in {
     qdirstat
     ripgrep
     obsidian
+    rustdesk
   ];
 
   # basic configuration of git, please change to your own
