@@ -1,4 +1,4 @@
-{ lib, config, unstable, home-manager, ... }:
+{ lib, config, unstable, rust-span-counter, home-manager, ... }:
 
 {
   imports = [ home-manager.nixosModules.home-manager ];
@@ -12,7 +12,7 @@
       useUserPackages = true;
       # I would put this elsewhere
       users.rasmus = import ./home.nix;
-      extraSpecialArgs = { inherit unstable; };
+      extraSpecialArgs = { inherit unstable rust-span-counter; };
     };
   };
 }

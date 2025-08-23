@@ -41,7 +41,28 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "rust-span-counter": "rust-span-counter",
         "unstableNixpkgs": "unstableNixpkgs"
+      }
+    },
+    "rust-span-counter": {
+      "inputs": {
+        "nixpkgs": [
+          "unstableNixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1755978275,
+        "narHash": "sha256-A75BTiASRrhyl99rvbj8nKlj63jrn8r0x1pT34f20Wg=",
+        "owner": "zlepper",
+        "repo": "rust-span-counter",
+        "rev": "25f73f3894319f217ff64138c2fc24e56e18229d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zlepper",
+        "repo": "rust-span-counter",
+        "type": "github"
       }
     },
     "unstableNixpkgs": {
