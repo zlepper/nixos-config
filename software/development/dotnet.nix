@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, unstable, lib, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [
@@ -18,7 +18,7 @@ let
 
   riderWithMediaInfo = pkgs.symlinkJoin {
     name = "rider";
-    paths = [ pkgs.jetbrains.rider ];
+    paths = [ unstable.jetbrains.rider ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/rider \
@@ -33,8 +33,10 @@ let
             pkgs.inkscape
           ]
         }" \
-        --suffix "COREFONTS_PATH" : "${pkgs.corefonts}/share/fonts/truetype" \
-        --suffix "FONTCONFIG_PATH" : "/etc/fonts"
+        --set "COREFONTS_PATH" "${pkgs.corefonts}/share/fonts/truetype" \
+        --set "FONTCONFIG_PATH" "/etc/fonts" \
+        --set "TZ" "Etc/UTC" \
+        --set "LC_ALL" "en_US.UTF-8"
     '';
   };
 in {
