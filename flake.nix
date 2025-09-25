@@ -35,30 +35,6 @@
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
-
-          ./home-manager-module.nix
-        ];
-      };
-
-      nixosConfigurations.nixos-hyperv-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
-
-          ./hyper-vm-hardware-configuration.nix
-
-          ./home-manager-module.nix
-        ];
-      };
-
       nixosConfigurations.rhdh-work-desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = allInputs;
@@ -86,5 +62,14 @@
         specialArgs = allInputs;
         modules = [ ./home-desktop.nix ./home-manager-module.nix ];
       };
+
+
+      nixosConfigurations.home-laptop-2 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = allInputs;
+        modules = [ ./home-laptop-2.nix ./home-manager-module.nix ];
+      };
+
+
     };
 }
