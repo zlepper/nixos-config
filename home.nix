@@ -71,6 +71,8 @@ in {
     ripgrep
     obsidian
     rustdesk
+    file
+    dig
   ];
 
   # basic configuration of git, please change to your own
