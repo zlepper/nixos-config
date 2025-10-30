@@ -39,6 +39,7 @@ in {
       gh
       unstable.claude-code
       ripgrep
+      msbuild-structured-log-viewer
     ] ++ [ pulumi ];
   use-home-manager.enable = true;
   services.envfs.enable = true;
