@@ -1,4 +1,4 @@
-{ config, unstable, ... }:
+{ config, unstable, pkgs, ... }:
 
 
 {
@@ -31,6 +31,6 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = unstable.linuxPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 }

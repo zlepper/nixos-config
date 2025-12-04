@@ -3,10 +3,10 @@
 
   inputs = {
     # NixOS official package source, using the nixos-23.11 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     unstableNixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -17,11 +17,17 @@
       url = "github:zlepper/rust-span-counter";
       inputs.nixpkgs.follows = "unstableNixpkgs";
     };
+    jetbrainsUpdated.url = "github:jamesward/nixpkgs/jetbrains-2025.2.5";
   };
 
-  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, rust-span-counter, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, rust-span-counter, jetbrainsUpdated, ... }@inputs:
     let
       unstablePkgs = import unstableNixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+
+      jetbrainsUpdatedPkgs = import jetbrainsUpdated {
         system = "x86_64-linux";
         config.allowUnfree = true;
       };
@@ -29,6 +35,7 @@
       allInputs = inputs // { 
         unstable = unstablePkgs;
         rust-span-counter = rust-span-counter.packages.x86_64-linux;
+        jetbrainsUpdated = jetbrainsUpdatedPkgs;
       };
 
     in {

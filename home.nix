@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, unstable, ... }:
 
 let
   onePassPath = "/home/rasmus/.1password/agent.sock";
@@ -84,6 +84,19 @@ in {
     extraConfig = {
       push = { autoSetupRemote = true; };
       pull = { rebase = true; };
+      gpg = {
+        format = "ssh";
+      };
+      "gpg \"ssh\"" = {
+        program = "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
+      };
+      commit = {
+        gpgsign = true;
+      };
+
+      user = {
+        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEH6/ioXsJxKFJZMKx44HGT0iGOw4CQyCI/GYDPCGYZ";
+      };
     };
   };
 

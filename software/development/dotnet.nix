@@ -1,4 +1,4 @@
-{ pkgs, unstable, lib, ... }:
+{ pkgs, unstable, jetbrainsUpdated, lib, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [
@@ -16,9 +16,14 @@ let
     hash = "sha256-OLz5p7A1OBmniuPHqK4tsA7zYWH4WYuMEL3AmvgaSbo=";
   };
 
+  rid = jetbrainsUpdated.jetbrains.rider.override {
+      forceWayland = true;
+  };
+
+
   riderWithMediaInfo = pkgs.symlinkJoin {
     name = "rider";
-    paths = [ unstable.jetbrains.rider ];
+    paths = [ rid ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/rider \

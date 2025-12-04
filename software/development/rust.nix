@@ -1,11 +1,15 @@
-{ pkgs, lib, rust-span-counter, ... }:
+{ pkgs, unstable, lib, rust-span-counter, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [ pkgs.libpcap ];
 
+  rr =  unstable.jetbrains.rust-rover.override {
+       forceWayland = true;
+    }; 
+
   rust-rover = pkgs.symlinkJoin {
     name = "rust-rover";
-    paths = [ pkgs.jetbrains.rust-rover ];
+    paths = [rr];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/rust-rover \
