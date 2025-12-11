@@ -15,6 +15,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  time.hardwareClockInLocalTime = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/c9a5db8e-dee9-44d7-be20-811f0d86dfda";
