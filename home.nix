@@ -78,10 +78,11 @@ in {
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    userName = "zlepper";
-    userEmail = "hansen13579@gmail.com";
-    lfs.enable = true;
-    extraConfig = {
+    settings = {
+      user = {
+        email = "hansen13579@gmail.com";
+        name = "zlepper";
+      };
       push = { autoSetupRemote = true; };
       pull = { rebase = true; };
       gpg = {
@@ -98,10 +99,24 @@ in {
         signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEH6/ioXsJxKFJZMKx44HGT0iGOw4CQyCI/GYDPCGYZ";
       };
     };
+    lfs.enable = true;
   };
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      forwardAgent = false;
+      addKeysToAgent = "no";
+      compression = false;
+      serverAliveInterval = 0;
+      serverAliveCountMax = 3;
+      hashKnownHosts = false;
+      userKnownHostsFile = "~/.ssh/known_hosts";
+      controlMaster = "no";
+      controlPath = "~/.ssh/master-%r@%n:%p";
+      controlPersist = "no";
+    };
     extraConfig = ''
       Host *
           IdentityAgent ${onePassPath}

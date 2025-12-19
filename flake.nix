@@ -17,7 +17,7 @@
       url = "github:zlepper/rust-span-counter";
       inputs.nixpkgs.follows = "unstableNixpkgs";
     };
-    jetbrainsUpdated.url = "github:jamesward/nixpkgs/jetbrains-2025.2.5";
+    jetbrainsUpdated.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = { self, nixpkgs, home-manager, unstableNixpkgs, rust-span-counter, jetbrainsUpdated, ... }@inputs:
