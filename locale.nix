@@ -3,7 +3,8 @@
 {
 
   # Set your time zone.
-  time.timeZone = "Europe/Copenhagen";
+  #time.timeZone = "Europe/Copenhagen";
+  services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_DK.UTF-8";
