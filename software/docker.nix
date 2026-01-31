@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
 
@@ -12,5 +12,7 @@
     dockerCompat = true; # Makes podman drop-in compatible with docker CLI
     defaultNetwork.settings.dns_enabled = true; # Required for kind DNS
   };
+
+  environment.systemPackages = [pkgs.kind];
 
 }
