@@ -13,6 +13,6 @@
     defaultNetwork.settings.dns_enabled = true; # Required for kind DNS
   };
 
-  environment.systemPackages = [pkgs.kind];
+  environment.systemPackages = [pkgs.kind pkgs.podman-compose];
 
 }

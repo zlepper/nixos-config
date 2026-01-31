@@ -16,6 +16,7 @@ in {
     ./software/development/javascript.nix
     ./software/development/rust.nix
     ./software/development/go.nix
+    ./software/development/java.nix
     ./software/llm.nix
   ];
 
@@ -69,7 +70,7 @@ in {
     qdirstat
     ripgrep
     obsidian
-    rustdesk
+    rustdesk-flutter
     file
     dig
   ];
