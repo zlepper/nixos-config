@@ -3,10 +3,10 @@
 let
   runtimeDeps = lib.makeLibraryPath [
     pkgs.libmediainfo
-    pkgs.xorg.libX11
-    pkgs.xorg.libX11.dev
-    pkgs.xorg.libICE
-    pkgs.xorg.libSM
+    pkgs.libx11
+    pkgs.libx11.dev
+    pkgs.libice
+    pkgs.libsm
   ];
 
   ffmpegZip = pkgs.fetchzip {

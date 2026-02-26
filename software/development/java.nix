@@ -3,9 +3,9 @@
 let 
   runtimeDeps = lib.makeLibraryPath [
 	unstable.libxext
-        unstable.xorg.libX11
-        unstable.xorg.libICE
-        unstable.xorg.libSM
+        unstable.libx11
+        unstable.libice
+        unstable.libsm
 	unstable.libxrender
 	unstable.libxtst
         unstable.libxi
