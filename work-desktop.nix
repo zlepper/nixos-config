@@ -41,7 +41,9 @@ in {
       ripgrep
       msbuild-structured-log-viewer
       teams-for-linux
-    ] ++ [ pulumi ];
+      awscli2
+      pulumi
+    ];
   use-home-manager.enable = true;
   services.envfs.enable = true;
 
