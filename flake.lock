@@ -39,11 +39,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1779467186,
-        "narHash": "sha256-nOesoDCiXcUftqbRBMz9tt4blI5PvljMWbm3kuCA+0s=",
+        "lastModified": 1779796641,
+        "narHash": "sha256-ZsIrKmhp4vbBXoXXmR/tBXA/UCsAQiJL9vsgZEduhVY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b77b3de8775677f84492abe84635f87b0e153f0f",
+        "rev": "25f538306313eae3927264466c70d7001dcea1df",
         "type": "github"
       },
       "original": {
@@ -58,28 +58,7 @@
         "home-manager": "home-manager",
         "jetbrainsUpdated": "jetbrainsUpdated",
         "nixpkgs": "nixpkgs",
-        "rust-span-counter": "rust-span-counter",
         "unstableNixpkgs": "unstableNixpkgs"
-      }
-    },
-    "rust-span-counter": {
-      "inputs": {
-        "nixpkgs": [
-          "unstableNixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1756018983,
-        "narHash": "sha256-jzXcx0od7eJjwVptivCaCnssnav6lV3fFsIsgosQzXg=",
-        "owner": "zlepper",
-        "repo": "rust-span-counter",
-        "rev": "1caad60bafbe2a3893a86d08bd4e2bfc7fcf6053",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zlepper",
-        "repo": "rust-span-counter",
-        "type": "github"
       }
     },
     "unstableNixpkgs": {

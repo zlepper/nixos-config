@@ -1,4 +1,4 @@
-{ pkgs, unstable, lib, rust-span-counter, ... }:
+{ pkgs, unstable, lib, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [ pkgs.libpcap ];
@@ -16,5 +16,5 @@ let
         --suffix "LIBPCAP_LIBDIR" : "${runtimeDeps}" \
     '';
   };
-in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack pkgs.cargo-expand rust-span-counter.default pkgs.gnumake ]; }
+in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack pkgs.cargo-expand pkgs.gnumake ]; }
 

@@ -13,14 +13,10 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rust-span-counter = {
-      url = "github:zlepper/rust-span-counter";
-      inputs.nixpkgs.follows = "unstableNixpkgs";
-    };
     jetbrainsUpdated.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, rust-span-counter, jetbrainsUpdated, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, jetbrainsUpdated, ... }@inputs:
     let
       unstablePkgs = import unstableNixpkgs {
         system = "x86_64-linux";
@@ -34,7 +30,6 @@
 
       allInputs = inputs // { 
         unstable = unstablePkgs;
-        rust-span-counter = rust-span-counter.packages.x86_64-linux;
         jetbrainsUpdated = jetbrainsUpdatedPkgs;
       };
 
