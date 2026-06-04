@@ -101,4 +101,7 @@
 
   programs.nix-ld.enable = true;
 
+  # Remove once https://github.com/NixOS/nixpkgs/issues/499166 is fixed
+  documentation.doc.enable = false;
+
 }
