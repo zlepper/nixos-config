@@ -22,6 +22,7 @@
 
 * For non-trivial changes, propose a plan before implementing and await confirmation.
 * Make **atomic change sets** — complete all interdependent changes before validating. Only run checks/linters after reaching a consistent state.
+* When needing to quickly check a method call or equivalent. Write a unit test, rather than trying to make a temporary file and run that. It's both more reliable, and it has access to the actual project dependencies.
 
 ## Testing
 
