@@ -12,9 +12,13 @@ in {
     ./hardware/work-desktop.nix
     ./configuration.nix
     ./hardware/virtualization.nix
+    ./software/intune.nix
   ];
 
   networking.hostName = "rhdh-work-desktop";
+
+  use-home-manager.enable = true;
+  services.envfs.enable = true;
 
   environment.systemPackages = with pkgs;
     [
@@ -43,9 +47,8 @@ in {
       teams-for-linux
       awscli2
       pulumi
+      killall
     ];
-  use-home-manager.enable = true;
-  services.envfs.enable = true;
 
   fonts = {
     enableDefaultPackages = true;
