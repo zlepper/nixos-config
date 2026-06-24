@@ -10,12 +10,6 @@
   security.pam.services.sddm.kwallet.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
-
-  # Re-key the GNOME "login" keyring when the password is changed via `passwd`, so
-  # it still auto-unlocks at login. Without this, a password change leaves the
-  # keyring encrypted with the old password -> pam_gnome_keyring can't unlock it at
-  # login -> the Intune broker can't read its tokens -> the device drops back to
-  # "We're still checking..." until the keyring is unlocked by hand.
   security.pam.services.passwd.enableGnomeKeyring = true;
 
   services.envfs.enable = true;
