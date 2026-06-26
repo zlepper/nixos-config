@@ -1,10 +1,43 @@
 { pkgs, ... }:
+let
+  # --- Chrome <-> Microsoft Identity Broker SSO bridge (linux-entra-sso) ---
+  # Chrome on Linux cannot satisfy device-based Conditional Access on its own:
+  # the official "Microsoft Single Sign On" extension only talks to the
+  # Windows/macOS-only `com.microsoft.browsercore` native host. Edge speaks to
+  # the broker directly over D-Bus, but Chrome needs a bridge. siemens'
+  # linux-entra-sso provides a native-messaging host that calls the broker's
+  # `acquirePrtSsoCookie` (verified working against broker 3.0.1) plus a
+  # companion extension. Not packaged in nixpkgs, so we build it from source.
+  entraSsoExtId = "jlnfnnolkbjieggibinobhkjdfbpcohn"; # signed Chrome Web Store id
+
+  entraSsoSrc = pkgs.fetchFromGitHub {
+    owner = "siemens";
+    repo = "linux-entra-sso";
+    rev = "v1.9.1";
+    hash = "sha256-3OF9Rk3oQJjJgDyV8/Uhfo0BKYYHKSD0vy70S5lmICs=";
+  };
+
+  entraSsoPython = pkgs.python3.withPackages (ps: with ps; [ pygobject3 pydbus ]);
+
+  # Wrap the stdio host so `gi`/pydbus find the GLib + Gio typelibs at runtime.
+  # Also usable as a CLI for debugging: `linux-entra-sso -i getAccounts`.
+  entraSsoHost = pkgs.runCommand "linux-entra-sso-host" {
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+  } ''
+    install -Dm644 ${entraSsoSrc}/linux-entra-sso.py \
+      $out/lib/linux-entra-sso/linux-entra-sso.py
+    makeWrapper ${entraSsoPython}/bin/python3 $out/bin/linux-entra-sso \
+      --add-flags "$out/lib/linux-entra-sso/linux-entra-sso.py" \
+      --prefix GI_TYPELIB_PATH : "${pkgs.lib.makeSearchPath "lib/girepository-1.0" [ pkgs.glib ]}"
+  '';
+in
 {
 
   environment.systemPackages = with pkgs;
     [
       microsoft-edge
       seahorse
+      entraSsoHost
     ];
 
   security.pam.services.sddm.kwallet.enable = true;
@@ -103,5 +136,26 @@
     PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
     UBUNTU_CODENAME=noble
   '';
+
+  # Native-messaging host the linux-entra-sso Chrome extension connects to.
+  # It bridges the extension to the broker's `acquirePrtSsoCookie` D-Bus method.
+  environment.etc."opt/chrome/native-messaging-hosts/linux_entra_sso.json".text =
+    builtins.toJSON {
+      name = "linux_entra_sso";
+      description = "Entra ID SSO via Microsoft Identity Broker";
+      path = "${entraSsoHost}/bin/linux-entra-sso";
+      type = "stdio";
+      allowed_origins = [ "chrome-extension://${entraSsoExtId}/" ];
+    };
+
+  # Force-install the companion extension so the bridge is reproducible. The
+  # official "Microsoft Single Sign On" extension is a no-op on Linux and can
+  # be removed from Chrome.
+  environment.etc."opt/chrome/policies/managed/linux-entra-sso.json".text =
+    builtins.toJSON {
+      ExtensionInstallForcelist = [
+        "${entraSsoExtId};https://clients2.google.com/service/update2/crx"
+      ];
+    };
 
 }
