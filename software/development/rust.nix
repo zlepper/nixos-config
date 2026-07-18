@@ -14,5 +14,16 @@ let
         --suffix "LIBPCAP_LIBDIR" : "${runtimeDeps}" \
     '';
   };
-in { home.packages = [ rust-rover pkgs.rustup pkgs.clang pkgs.heaptrack pkgs.cargo-expand pkgs.gnumake pkgs.cargo-nextest ]; }
+in { home.packages = [ 
+	rust-rover 
+	pkgs.rustup 
+	pkgs.clang 
+	pkgs.heaptrack 
+	pkgs.cargo-expand 
+	pkgs.gnumake 
+	pkgs.cargo-nextest 
+	pkgs.wasm-tools
+	pkgs.wasmtime
+	pkgs.wkg
+]; }
 
