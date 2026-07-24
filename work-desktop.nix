@@ -48,6 +48,7 @@ in {
       awscli2
       pulumi
       killall
+      unstable.github-copilot-cli
     ];
 
   fonts = {
