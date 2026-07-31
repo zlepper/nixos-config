@@ -86,8 +86,10 @@ in
             --set CURL_CA_BUNDLE "${final.cacert}/etc/ssl/certs/ca-bundle.crt" \
             --set GDK_BACKEND x11 \
             --set WEBKIT_DISABLE_DMABUF_RENDERER "1" \
-            --set MIP_CACHE_DIR "$HOME/.local/share/microsoft-identity-broker" \
-            --run 'export STATE_DIRECTORY="''${STATE_DIRECTORY:-$HOME/.local/state/microsoft-identity-broker}"'
+            --run 'export MIP_CACHE_DIR="''${MIP_CACHE_DIR:-$HOME/.local/share/microsoft-identity-broker}"' \
+            --run '[ -n "$HOME" ] && mkdir -p "$MIP_CACHE_DIR" 2>/dev/null || true' \
+            --run 'export STATE_DIRECTORY="''${STATE_DIRECTORY:-$HOME/.local/state/microsoft-identity-broker}"' \
+            --run '[ -n "$HOME" ] && mkdir -p "$STATE_DIRECTORY" 2>/dev/null || true'
         done
       '';
     });
@@ -121,6 +123,28 @@ in
   # Hack Intune to work
   services.intune.enable = true;
   xdg.portal.enable = true;
+
+  # The intune-portal package ships intune-agent.timer, which runs the
+  # compliance check-in ~5 min after login and then hourly. The nixpkgs
+  # services.intune module only *links* the unit (systemd.packages) without
+  # enabling it, so the timer never fires: the agent reports compliant once at
+  # enrollment, then the device silently goes non-compliant when Intune's
+  # 30-day check-in grace lapses. Enable the timer so compliance is actually
+  # maintained. overrideStrategy = "asDropin" keeps the package's [Timer]
+  # schedule and only adds the enablement symlink.
+  systemd.user.timers.intune-agent = {
+    overrideStrategy = "asDropin";
+    wantedBy = [ "graphical-session.target" ];
+  };
+
+  # Same module gap: intune-daemon.socket ships WantedBy=sockets.target but the
+  # module only links it, so the daemon control socket (/run/intune/daemon.socket)
+  # never listens and the privileged intune-daemon is never reachable. Enable it
+  # so device-side management operations work, not just compliance reporting.
+  systemd.sockets.intune-daemon = {
+    overrideStrategy = "asDropin";
+    wantedBy = [ "sockets.target" ];
+  };
 
   # 4. Mandatory OS Spoofing: Convince Intune's inventory check that this machine runs Ubuntu 24.04 LTS
   environment.etc."os-release".text = pkgs.lib.mkForce ''
