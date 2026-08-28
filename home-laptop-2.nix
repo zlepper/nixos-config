@@ -11,7 +11,8 @@
      unstable.claude-code
      pkgs.ripgrep
      pkgs.postman
+     unstable.codex
   ];
- 
+
   system.stateVersion = "25.05";
 }
