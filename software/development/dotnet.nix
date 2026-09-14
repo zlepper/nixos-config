@@ -1,4 +1,4 @@
-{ pkgs, unstable, jetbrainsUpdated, lib, ... }:
+{ pkgs, unstable, lib, ... }:
 
 let
   runtimeDeps = lib.makeLibraryPath [
@@ -16,9 +16,7 @@ let
     hash = "sha256-OLz5p7A1OBmniuPHqK4tsA7zYWH4WYuMEL3AmvgaSbo=";
   };
 
-  rid = jetbrainsUpdated.jetbrains.rider.override {
-      forceWayland = true;
-  };
+  rid = unstable.jetbrains.rider;
 
 
   riderWithMediaInfo = pkgs.symlinkJoin {

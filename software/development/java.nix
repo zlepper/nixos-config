@@ -14,9 +14,7 @@ let
         unstable.fontconfig
   ];
 
-  idea = unstable.jetbrains.idea.override {
-	forceWayland = true;
-  };
+  idea = unstable.jetbrains.idea;
 
   ideaWithDeps = pkgs.symlinkJoin {
 	name = "idea";

@@ -3,9 +3,7 @@
 let
   runtimeDeps = lib.makeLibraryPath [ pkgs.libpcap ];
 
-  rr =  unstable.jetbrains.rust-rover.override {
-       forceWayland = true;
-    }; 
+  rr =  unstable.jetbrains.rust-rover; 
 
   rust-rover = pkgs.symlinkJoin {
     name = "rust-rover";
