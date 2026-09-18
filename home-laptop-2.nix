@@ -12,6 +12,7 @@
      pkgs.ripgrep
      pkgs.postman
      unstable.codex
+     unstable.gh
   ];
 
   system.stateVersion = "25.05";
