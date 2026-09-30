@@ -115,6 +115,19 @@ in
               --run 'export STATE_DIRECTORY="''${STATE_DIRECTORY:-$HOME/.local/state/intune}"'
           fi
         done
+
+        # The shipped tmpfiles rule is `D /run/intune`, and `D` purges the dir's
+        # contents on `systemd-tmpfiles --remove`. Ubuntu only runs that at
+        # boot, but every nixos-rebuild switch does too
+        # (systemd-tmpfiles-resetup.service). That wipes
+        # /run/intune/<uid>/pwquality, which pam_intune writes only at login to
+        # record the measured password length, so the agent reports length 0
+        # and the device goes non-compliant until the next re-login. Lowercase
+        # `d` creates the dir without ever purging it. This has to be patched
+        # in the package: a separate `d` rule in 00-nixos.conf does not shadow
+        # it, since tmpfiles applies both lines.
+        substituteInPlace $out/lib/tmpfiles.d/intune.conf \
+          --replace-fail 'D /run/intune' 'd /run/intune'
       '';
     });
   })
