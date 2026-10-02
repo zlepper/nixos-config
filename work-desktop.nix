@@ -1,4 +1,4 @@
-{ pkgs, unstable, lib, ... }:
+{ pkgs, unstable, lib, styrhous, ... }:
 
 let
   # Don't install the individual provider packages as we install them directly
@@ -20,9 +20,14 @@ in {
   use-home-manager.enable = true;
   services.envfs.enable = true;
 
+  # Some software (e.g. prebuilt Qt's QSysInfo::machineUniqueId()) only reads the D-Bus machine ID
+  # path. Other distributions link it to /etc/machine-id; NixOS doesn't create it.
+  systemd.tmpfiles.rules = [ "L+ /var/lib/dbus/machine-id - - - - /etc/machine-id" ];
+
   environment.systemPackages = with pkgs;
     [
       lens
+      styrhous.packages.${pkgs.stdenv.hostPlatform.system}.default
       meshlab
       imagemagick
       flyctl

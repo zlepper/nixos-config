@@ -58,7 +58,28 @@
         "home-manager": "home-manager",
         "jetbrainsUpdated": "jetbrainsUpdated",
         "nixpkgs": "nixpkgs",
+        "styrhous": "styrhous",
         "unstableNixpkgs": "unstableNixpkgs"
+      }
+    },
+    "styrhous": {
+      "inputs": {
+        "nixpkgs": [
+          "unstableNixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790930886,
+        "narHash": "sha256-nXBjFNq1x57PuCbYF+tBH9fv3XOovD3w4mTM/MB0vWw=",
+        "owner": "zlepper",
+        "repo": "styrhous",
+        "rev": "e81891b4eab27b7f09e6a55f6291de3a14fc76a8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zlepper",
+        "repo": "styrhous",
+        "type": "github"
       }
     },
     "unstableNixpkgs": {

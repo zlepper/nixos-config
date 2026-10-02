@@ -14,6 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jetbrainsUpdated.url = "github:NixOS/nixpkgs/nixos-unstable";
+    styrhous = {
+      url = "github:zlepper/styrhous";
+      inputs.nixpkgs.follows = "unstableNixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, unstableNixpkgs, jetbrainsUpdated, ... }@inputs:
