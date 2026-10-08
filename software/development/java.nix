@@ -21,7 +21,7 @@ let
   	paths = [idea];
   	buildInputs = [pkgs.makeWrapper];
 	postBuild = ''
-		wrapProgram $out/bin/idea \
+		wrapProgram $out/bin/intellij-idea \
 			--suffix "LD_LIBRARY_PATH" : "${runtimeDeps}" \
 			--suffix "PATH" : "${
 				lib.strings.makeBinPath [
