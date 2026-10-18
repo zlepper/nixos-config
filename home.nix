@@ -1,4 +1,9 @@
-{ lib, pkgs, unstable, ... }:
+{
+  lib,
+  pkgs,
+  unstable,
+  ...
+}:
 
 let
   onePassPath = "/home/rasmus/.1password/agent.sock";
@@ -9,7 +14,8 @@ let
             git reset .
             git checkout .
   '';
-in {
+in
+{
 
   imports = [
     ./software/development/dotnet.nix
@@ -55,7 +61,6 @@ in {
     firefox
     kdePackages.kate
     dive
-    tree
     remmina
     nil
     nix-tree
@@ -83,8 +88,12 @@ in {
         email = "hansen13579@gmail.com";
         name = "zlepper";
       };
-      push = { autoSetupRemote = true; };
-      pull = { rebase = true; };
+      push = {
+        autoSetupRemote = true;
+      };
+      pull = {
+        rebase = true;
+      };
       gpg = {
         format = "ssh";
       };

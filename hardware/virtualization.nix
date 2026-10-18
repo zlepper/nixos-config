@@ -1,4 +1,4 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ pkgs, ... }:
 
 {
   programs.virt-manager.enable = true;
@@ -25,4 +25,3 @@
   #};
 
 }
-

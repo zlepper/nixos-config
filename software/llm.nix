@@ -1,4 +1,4 @@
-{unstable, ...}:
+{ unstable, ... }:
 
 let
   instructions = builtins.readFile ./code-agent-instructions.md;

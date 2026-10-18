@@ -13,69 +13,50 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jetbrainsUpdated.url = "github:NixOS/nixpkgs/nixos-unstable";
     styrhous = {
       url = "github:zlepper/styrhous";
       inputs.nixpkgs.follows = "unstableNixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, unstableNixpkgs, jetbrainsUpdated, ... }@inputs:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      unstableNixpkgs,
+      ...
+    }@inputs:
     let
+      system = "x86_64-linux";
+
       unstablePkgs = import unstableNixpkgs {
-        system = "x86_64-linux";
+        inherit system;
         config.allowUnfree = true;
       };
 
-      jetbrainsUpdatedPkgs = import jetbrainsUpdated {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
-
-      allInputs = inputs // { 
+      allInputs = inputs // {
         unstable = unstablePkgs;
-        jetbrainsUpdated = jetbrainsUpdatedPkgs;
       };
 
-    in {
+      mkHost =
+        hostModule:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = allInputs;
+          modules = [
+            hostModule
+            ./home-manager-module.nix
+          ];
+        };
+    in
+    {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
 
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
-
-      nixosConfigurations.rhdh-work-desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = allInputs;
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./work-desktop.nix
-          ./home-manager-module.nix
-        ];
+      nixosConfigurations = {
+        rhdh-work-desktop = mkHost ./work-desktop.nix;
+        home-laptop = mkHost ./home-laptop.nix;
+        home-desktop = mkHost ./home-desktop.nix;
+        home-laptop-2 = mkHost ./home-laptop-2.nix;
       };
-
-      nixosConfigurations.home-laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = allInputs;
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./home-laptop.nix
-          ./home-manager-module.nix
-        ];
-      };
-
-      nixosConfigurations.home-desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = allInputs;
-        modules = [ ./home-desktop.nix ./home-manager-module.nix ];
-      };
-
-
-      nixosConfigurations.home-laptop-2 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = allInputs;
-        modules = [ ./home-laptop-2.nix ./home-manager-module.nix ];
-      };
-
-
     };
 }

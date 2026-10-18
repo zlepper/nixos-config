@@ -1,4 +1,9 @@
-{ pkgs, unstable, lib, ... }:
+{
+  pkgs,
+  unstable,
+  lib,
+  ...
+}:
 
 let
   runtimeDeps = lib.makeLibraryPath [
@@ -11,13 +16,11 @@ let
 
   ffmpegZip = pkgs.fetchzip {
     name = "ffmpeg-zip";
-    url =
-      "https://digizuitedistribution.blob.core.windows.net/ffmpeg/7.0.2/ffmpeg-n7.0.2-linux64-gpl-7.0.tar.xz";
+    url = "https://digizuitedistribution.blob.core.windows.net/ffmpeg/7.0.2/ffmpeg-n7.0.2-linux64-gpl-7.0.tar.xz";
     hash = "sha256-OLz5p7A1OBmniuPHqK4tsA7zYWH4WYuMEL3AmvgaSbo=";
   };
 
   rid = unstable.jetbrains.rider;
-
 
   riderWithMediaInfo = pkgs.symlinkJoin {
     name = "rider";
@@ -42,10 +45,19 @@ let
         --set "LC_ALL" "en_US.UTF-8"
     '';
   };
-in {
+in
+{
 
   home.packages = [
-    (with pkgs.dotnetCorePackages; combinePackages [ sdk_8_0 sdk_7_0 sdk_9_0 sdk_10_0 ])
+    (
+      with pkgs.dotnetCorePackages;
+      combinePackages [
+        sdk_8_0
+        sdk_7_0
+        sdk_9_0
+        sdk_10_0
+      ]
+    )
     riderWithMediaInfo
   ];
 }

@@ -55,7 +55,11 @@
   users.users.rasmus = {
     isNormalUser = true;
     description = "Rasmus";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+    ];
   };
 
   # Enable automatic login for the user.
@@ -65,14 +69,23 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ vim git speedcrunch ];
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    speedcrunch
+  ];
 
-  nixpkgs.config.permittedInsecurePackages =
-    [ "dotnet-sdk-wrapped-7.0.410" "dotnet-sdk-7.0.410" ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-wrapped-7.0.410"
+    "dotnet-sdk-7.0.410"
+  ];
 
   # Set vim as the default editor
   environment.variables.EDITOR = "vim";
