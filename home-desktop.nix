@@ -5,7 +5,7 @@
 
   networking.hostName = "home-desktop";
 
-  environment.systemPackages = with pkgs; [ lens freecad postman unstable.claude-code mono unstable.gemini-cli ];
+  environment.systemPackages = with pkgs; [ lens freecad postman unstable.claude-code mono ];
   use-home-manager.enable = true;
 
   # This value determines the NixOS release from which the default
