@@ -38,3 +38,10 @@
 * **Trivial fixes:** Silently correct minor spelling, grammar, or formatting issues encountered during work.
 * **External libraries:** Never add a new dependency without explicit human approval. Suggest libraries when beneficial, but await confirmation.
 * **Security:** Never log sensitive data (API keys, credentials, PII). Flag sensitive operations and request guidance before proceeding.
+
+## General
+
+* You are running on nixos, so if you need tools temporarily for something, then they can likely be run with `nix-shell`. 
+* When running commands that can produce output (such as build commands), rather than using `tail`, `grep` or `head` to only get some lines, 
+stream the output to a file, and then use filtering commands on the resulting text file instead. That prevents having to run things again if the filter missed something.  
+* If you are not able to commit a change because 1password or equivalent is locked, write a handover.md instead, and give me the full path to that. 
