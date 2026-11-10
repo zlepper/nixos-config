@@ -13,7 +13,6 @@
     lens
     freecad
     postman
-    unstable.claude-code
     mono
   ];
   use-home-manager.enable = true;

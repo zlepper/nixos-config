@@ -43,6 +43,19 @@
   boot.initrd.luks.devices."luks-ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1".device =
     "/dev/disk/by-uuid/ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1";
 
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/4a172187-4bf8-460a-99dd-ace508b8d25c";
+    fsType = "btrfs";
+    options = [
+      "subvol=@data"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  boot.initrd.luks.devices."luks-7da2e744-45ca-4d4b-a58e-edab3f92b966".device =
+    "/dev/disk/by-uuid/7da2e744-45ca-4d4b-a58e-edab3f92b966";
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/F6A6-D664";
     fsType = "vfat";

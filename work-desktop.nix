@@ -14,14 +14,6 @@ let
     postUnpack = "";
   });
   
-  claude-code = (pkgs.writeShellScriptBin "claude" ''
-      export CONTAINERS_CONF_OVERRIDE=/etc/containers/lowprio.conf
-      exec ${pkgs.systemd}/bin/systemd-run --user --scope --quiet \
-        -p Delegate=yes -p CPUWeight=10 -p IOWeight=10 \
-        -p MemoryHigh=30G -p MemoryMax=32G \
-        -- ${unstable.claude-code}/bin/claude "$@"
-    '');
-
 in {
   imports = [
     ./hardware/work-desktop.nix
@@ -33,6 +25,11 @@ in {
   networking.hostName = "rhdh-work-desktop";
 
   use-home-manager.enable = true;
+  home-manager.users.rasmus.resourceLimits = {
+    memoryHigh = "30G";
+    memoryMax = "32G";
+    cpuCores = 16;
+  };
 
   # Some software (e.g. prebuilt Qt's QSysInfo::machineUniqueId()) only reads the D-Bus machine ID
   # path. Other distributions link it to /etc/machine-id; NixOS doesn't create it.
@@ -60,7 +57,6 @@ in {
       tmux
       pkgs.jetbrains.gateway
       gh
-      claude-code
       ripgrep
       msbuild-structured-log-viewer
       teams-for-linux
@@ -69,11 +65,6 @@ in {
       killall
       unstable.github-copilot-cli
     ];
-
-  environment.etc."containers/lowprio.conf".text = ''
-    [containers]
-    cgroups = "split"
-  '';
 
   fonts = {
     enableDefaultPackages = true;

@@ -90,6 +90,12 @@
   # Set vim as the default editor
   environment.variables.EDITOR = "vim";
 
+  # Lets podman run inside the delegated scopes of the lowprio-wrapped claude/codex
+  environment.etc."containers/lowprio.conf".text = ''
+    [containers]
+    cgroups = "split"
+  '';
+
   # Automatically enable numlock on login
   services.displayManager.sddm.autoNumlock = true;
 

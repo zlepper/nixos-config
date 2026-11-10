@@ -49,6 +49,8 @@ in
 
   security.pam.services.sddm.kwallet.enable = true;
   services.gnome.gnome-keyring.enable = true;
+  # Keyring is only needed for secrets; GCR's agent would hijack SSH_AUTH_SOCK from 1Password
+  services.gnome.gcr-ssh-agent.enable = false;
   security.pam.services.sddm.enableGnomeKeyring = true;
   security.pam.services.passwd.enableGnomeKeyring = true;
 

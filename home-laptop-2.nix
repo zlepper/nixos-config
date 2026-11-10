@@ -11,10 +11,8 @@
   use-home-manager.enable = true;
 
   environment.systemPackages = [
-    unstable.claude-code
     pkgs.ripgrep
     pkgs.postman
-    unstable.codex
     unstable.gh
   ];
 

@@ -14,11 +14,6 @@ let
             git reset .
             git checkout .
   '';
-  lowPriorityCommand = (pkgs.writeShellScriptBin "lowprio" ''
-      exec ${pkgs.systemd}/bin/systemd-run --user --scope --quiet \
-        -p CPUWeight=10 -p IOWeight=10 \ 
-        -p MemoryHigh=30G -p MemoryMax=32G -- "$@"
-    '');
 in {
   imports = [
     ./software/development/dotnet.nix
@@ -27,6 +22,7 @@ in {
     ./software/development/go.nix
     ./software/development/java.nix
     ./software/llm.nix
+    ./software/resource-limits.nix
   ];
 
   home.username = "rasmus";
@@ -75,7 +71,6 @@ in {
     vlc
     gimp
     unfuck-lfs-script
-    lowPriorityCommand
     qdirstat
     ripgrep
     obsidian
