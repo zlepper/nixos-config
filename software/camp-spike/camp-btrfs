@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Root helper for the single `btrfs send -p` vs FIEMAP-delta comparison case.
+# Only send/receive/delete need root; create and snapshot stay unprivileged.
+#
+#   camp-btrfs send [-p <parent>] <subvol>   > stream
+#   camp-btrfs receive <dir>                 < stream
+#   camp-btrfs delete <subvol>
+#
+# Every path must resolve (after symlinks) under $ROOT_DIR, which must sit on the
+# dedicated /data filesystem. /data must be mounted nosuid,nodev: receive
+# recreates ownership and modes from the stream, so without them a crafted
+# stream could plant a setuid-root binary.
+set -euo pipefail
+
+ROOT_DIR=/data/camp/btrfs-cmp
+MOUNT=/data
+# $ROOT_DIR relative to the filesystem top level (/data is subvol=@data).
+SUBVOL_DIR=@data/camp/btrfs-cmp
+
+die() { echo "camp-btrfs: $*" >&2; exit 1; }
+[[ $EUID -eq 0 ]] || die "must run as root (sudo)"
+
+opts="$(findmnt -n -o OPTIONS --mountpoint "$MOUNT")" || die "$MOUNT is not mounted"
+[[ ",$opts," == *,nosuid,* && ",$opts," == *,nodev,* ]] || die "$MOUNT must be mounted nosuid,nodev"
+[[ "$(findmnt -n -o FSTYPE --mountpoint "$MOUNT")" == btrfs ]] || die "$MOUNT is not btrfs"
+
+# Resolve and confine a path; prints the canonical path.
+confine() {
+  local p; p="$(realpath -e -- "$1")" || die "no such path: $1"
+  [[ "$p" == "$ROOT_DIR"/* ]] || die "outside $ROOT_DIR: $p"
+  [[ "$(findmnt -n -o TARGET --target "$p")" == "$MOUNT" ]] || die "not on $MOUNT: $p"
+  printf '%s' "$p"
+}
+
+case "${1:-}" in
+  send)
+    shift
+    args=()
+    if [[ "${1:-}" == -p ]]; then args+=(-p "$(confine "${2:?parent}")"); shift 2; fi
+    [[ $# -eq 1 ]] || die "usage: send [-p <parent>] <subvol>"
+    [[ -t 1 ]] && die "refusing to write a send stream to a terminal"
+    # Separate assignment: set -e ignores a failed $(...) used as an argument.
+    subvol="$(confine "$1")"
+    exec btrfs send --quiet "${args[@]}" "$subvol"
+    ;;
+  receive)
+    [[ $# -eq 2 ]] || die "usage: receive <dir>"
+    dir="$(confine "$2")"; [[ -d "$dir" ]] || die "not a directory: $dir"
+    # --chroot: without it, a crafted stream can create a symlink and write
+    # through it as root, outside $dir and off /data.
+    exec btrfs receive --chroot -- "$dir"
+    ;;
+  delete)
+    [[ $# -eq 2 ]] || die "usage: delete <subvol>"
+    p="$(confine "$2")"
+    [[ "$(stat -c %i -- "$p")" == 256 ]] || die "not a subvolume: $p"
+    # The user owns $ROOT_DIR and can swap path components for symlinks after
+    # confine(). Re-check by subvolume id against the filesystem-internal path,
+    # which symlinks cannot alter, and delete by that id.
+    id="$(btrfs inspect-internal rootid -- "$p")"
+    rel="$(btrfs inspect-internal subvolid-resolve "$id" "$MOUNT")"
+    [[ "$rel" == "$SUBVOL_DIR"/* ]] || die "subvolume $id resolves outside $SUBVOL_DIR: $rel"
+    exec btrfs subvolume delete --subvolid "$id" -- "$MOUNT"
+    ;;
+  *) die "usage: send [-p <parent>] <subvol> | receive <dir> | delete <subvol>" ;;
+esac

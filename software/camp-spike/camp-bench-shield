@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Exclusive CPUs for benchmarks: a top-level cgroup v2 cpuset *partition root*.
+# Once it exists, the kernel removes its CPUs from every other cgroup (system,
+# user, this Claude session), so nothing else is scheduled there. Run commands
+# inside it with `run`; root privileges are dropped back to the invoking user
+# before the command executes.
+#
+# Runs as root via a NOPASSWD sudoers rule. Install it ROOT-OWNED from a path
+# the user cannot write (e.g. the Nix store via the NixOS snippet in
+# helpers/README.md). A user-writable copy under sudo is a root shell.
+set -euo pipefail
+
+CG=/sys/fs/cgroup/camp-bench
+# CCX 4-7 (cores 16-31) plus their SMT siblings: whole L3 domains, no sharing
+# with the rest of the machine.
+CPUS="${CAMP_BENCH_CPUS:-16-31,48-63}"
+
+die() { echo "camp-bench-shield: $*" >&2; exit 1; }
+[[ $EUID -eq 0 ]] || die "must run as root (sudo)"
+[[ "$CPUS" =~ ^[0-9,-]+$ ]] || die "bad cpu list"
+
+case "${1:-}" in
+  up)
+    grep -qw cpuset /sys/fs/cgroup/cgroup.subtree_control || echo +cpuset > /sys/fs/cgroup/cgroup.subtree_control
+    mkdir -p "$CG"
+    echo "$CPUS" > "$CG/cpuset.cpus"
+    echo "$CPUS" > "$CG/cpuset.cpus.exclusive"
+    echo root > "$CG/cpuset.cpus.partition"
+    state="$(cat "$CG/cpuset.cpus.partition")"
+    [[ "$state" == root ]] || die "partition not valid: $state"
+    echo "camp-bench-shield: exclusive cpus $(cat "$CG/cpuset.cpus.effective")"
+    ;;
+  run)
+    shift; [[ "${1:-}" == "--" ]] && shift
+    [[ $# -gt 0 ]] || die "usage: run -- <cmd...>"
+    [[ "$(cat "$CG/cpuset.cpus.partition" 2>/dev/null)" == root ]] || die "shield is not up"
+    [[ -n "${SUDO_UID:-}" && -n "${SUDO_GID:-}" ]] || die "run via sudo"
+    echo $$ > "$CG/cgroup.procs"
+    # The caller's login environment is restored by helpers/bench.sh (it passes
+    # `bash -lc`), so only identity-derived variables are set here.
+    user="$(getent passwd "$SUDO_UID" | cut -d: -f1)"
+    exec setpriv --reuid="$SUDO_UID" --regid="$SUDO_GID" --init-groups --reset-env -- \
+      env HOME="$(getent passwd "$SUDO_UID" | cut -d: -f6)" USER="$user" LOGNAME="$user" \
+          XDG_RUNTIME_DIR="/run/user/$SUDO_UID" PATH="/run/current-system/sw/bin" \
+          CAMP_BENCH_SHIELDED=1 CAMP_BENCH_CPUS="$(cat "$CG/cpuset.cpus.effective")" "$@"
+    ;;
+  down)
+    [[ -d "$CG" ]] || exit 0
+    [[ -z "$(cat "$CG/cgroup.procs")" ]] || die "processes still inside: $(tr '\n' ' ' < "$CG/cgroup.procs")"
+    echo member > "$CG/cpuset.cpus.partition"
+    rmdir "$CG"
+    echo "camp-bench-shield: released"
+    ;;
+  status)
+    [[ -d "$CG" ]] && echo "$(cat "$CG/cpuset.cpus.partition") $(cat "$CG/cpuset.cpus.effective")" || echo down
+    ;;
+  *) die "usage: up | run -- <cmd...> | down | status" ;;
+esac

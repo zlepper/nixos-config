@@ -41,7 +41,7 @@ in
       type = types.str;
       readOnly = true;
       internal = true;
-      description = "Shell snippet that execs the rest of the line in a low-priority scope; append `-- <command>`.";
+      description = "Shell snippet that runs the rest of the line in a low-priority scope; append `-- <command>`.";
     };
   };
 
@@ -56,7 +56,9 @@ in
       # workers outside this scope nor share them with other low-priority instances
       export MSBUILDNODEHANDSHAKESALT="lowprio-$$"
       export SharedCompilationId="lowprio-$$"
-      exec ${pkgs.systemd}/bin/systemd-run --user --scope --quiet ${
+      # No exec: Konsole moves the terminal's foreground process group leader into its tab
+      # cgroup, so the leader must stay outside the scope or the scope gets emptied
+      ${pkgs.systemd}/bin/systemd-run --user --scope --quiet ${
         lib.escapeShellArgs (lib.concatMap (p: [ "-p" p ]) properties)
       }'';
 

@@ -50,6 +50,11 @@
       "subvol=@data"
       "compress=zstd"
       "noatime"
+      # Unprivileged subvolume deletion for the CAMP spike; nosuid/nodev because a
+      # root `btrfs receive` (camp-btrfs) recreates file modes from the stream.
+      "user_subvol_rm_allowed"
+      "nosuid"
+      "nodev"
     ];
   };
 

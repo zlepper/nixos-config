@@ -20,6 +20,7 @@ in {
     ./configuration.nix
     ./hardware/virtualization.nix
     ./software/intune.nix
+    ./software/camp-spike
   ];
 
   networking.hostName = "rhdh-work-desktop";
