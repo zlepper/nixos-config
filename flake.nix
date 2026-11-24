@@ -28,6 +28,7 @@
     }@inputs:
     let
       system = "x86_64-linux";
+      username = "rasmus";
 
       unstablePkgs = import unstableNixpkgs {
         inherit system;
@@ -42,7 +43,7 @@
         hostModule:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = allInputs;
+          specialArgs = allInputs // { inherit username; };
           modules = [
             hostModule
             ./home-manager-module.nix

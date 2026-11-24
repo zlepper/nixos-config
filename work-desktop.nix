@@ -3,6 +3,7 @@
   unstable,
   lib,
   styrhous,
+  username,
   ...
 }:
 
@@ -26,7 +27,7 @@ in {
   networking.hostName = "rhdh-work-desktop";
 
   use-home-manager.enable = true;
-  home-manager.users.rasmus.resourceLimits = {
+  home-manager.users.${username}.resourceLimits = {
     memoryHigh = "30G";
     memoryMax = "32G";
     cpuCores = 16;

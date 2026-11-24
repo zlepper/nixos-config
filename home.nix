@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   unstable,
@@ -6,7 +7,7 @@
 }:
 
 let
-  onePassPath = "/home/rasmus/.1password/agent.sock";
+  onePassPath = "${config.home.homeDirectory}/.1password/agent.sock";
   unfuck-lfs-script = pkgs.writeShellScriptBin "unfuck-lfs" ''
     	git rm --cached -r .
             git reset --hard
@@ -24,9 +25,6 @@ in {
     ./software/llm.nix
     ./software/resource-limits.nix
   ];
-
-  home.username = "rasmus";
-  home.homeDirectory = "/home/rasmus";
 
   # encode the file content in nix configuration file directly
   # home.file.".xxx".text = ''

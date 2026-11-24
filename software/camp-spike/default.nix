@@ -2,7 +2,7 @@
 # (keyshot-coding-agent-platform/spikes/agent-runtime/helpers). The scripts are
 # copied into this repo on purpose: sudo must only ever run reviewed,
 # root-owned copies from the store, never the user-writable ones in the spike.
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 let
   # inheritPath = false: sudo keeps the caller's PATH (NixOS sets no secure_path),
@@ -30,11 +30,11 @@ in
 
   security.sudo.extraRules = [
     {
-      users = [ "rasmus" ];
+      users = [ username ];
       commands = [ (nopasswd campBenchShield) (nopasswd campBtrfs) ];
     }
   ];
 
   # camp-btrfs refuses to receive unless this directory exists on /data.
-  systemd.tmpfiles.rules = [ "d /data/camp/btrfs-cmp 0755 rasmus users -" ];
+  systemd.tmpfiles.rules = [ "d /data/camp/btrfs-cmp 0755 ${username} users -" ];
 }

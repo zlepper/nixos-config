@@ -3,6 +3,7 @@
   config,
   unstable,
   home-manager,
+  username,
   ...
 }:
 
@@ -16,7 +17,7 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       # I would put this elsewhere
-      users.rasmus = import ./home.nix;
+      users.${username} = import ./home.nix;
       extraSpecialArgs = { inherit unstable; };
     };
   };

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
@@ -52,7 +52,7 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.rasmus = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Rasmus";
     extraGroups = [
@@ -64,7 +64,7 @@
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = false;
-  services.displayManager.autoLogin.user = "rasmus";
+  services.displayManager.autoLogin.user = username;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -104,7 +104,7 @@
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "rasmus" ];
+    polkitPolicyOwners = [ username ];
   };
 
   programs.gnupg.agent.enable = true;
