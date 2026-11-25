@@ -27,10 +27,24 @@ in {
   networking.hostName = "rhdh-work-desktop";
 
   use-home-manager.enable = true;
-  home-manager.users.${username}.resourceLimits = {
-    memoryHigh = "30G";
-    memoryMax = "32G";
-    cpuCores = 16;
+  home-manager.users.${username} = {
+    resourceLimits = {
+      memoryHigh = "30G";
+      memoryMax = "32G";
+      cpuCores = 16;
+    };
+
+    # NuGet credential provider: the work feed's token comes from gh at restore time instead of NuGet.Config.
+    programs.nuget-secret-cli-credentials = {
+      enable = true;
+      sources = [
+        {
+          uriPrefix = "https://nuget.pkg.github.com/keyshot-dev/";
+          username = "zlepper";
+          password = "gh://github.com";
+        }
+      ];
+    };
   };
 
   # Some software (e.g. prebuilt Qt's QSysInfo::machineUniqueId()) only reads the D-Bus machine ID

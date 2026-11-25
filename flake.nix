@@ -17,6 +17,10 @@
       url = "github:zlepper/styrhous";
       inputs.nixpkgs.follows = "unstableNixpkgs";
     };
+    nuget-secret-cli-credentials = {
+      url = "github:zlepper/nuget-secret-cli-credentials";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

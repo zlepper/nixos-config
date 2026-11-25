@@ -3,6 +3,7 @@
   config,
   unstable,
   home-manager,
+  nuget-secret-cli-credentials,
   username,
   ...
 }:
@@ -18,6 +19,7 @@
       useUserPackages = true;
       # I would put this elsewhere
       users.${username} = import ./home.nix;
+      sharedModules = [ nuget-secret-cli-credentials.homeManagerModules.default ];
       extraSpecialArgs = { inherit unstable; };
     };
   };
