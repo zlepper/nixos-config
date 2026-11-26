@@ -73,11 +73,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795593030,
-        "narHash": "sha256-AO50PdWU0w/MzqcO/sYrwAfrFBPeQu5DaWZhBpDr7Qo=",
+        "lastModified": 1795674509,
+        "narHash": "sha256-mVsSoYVfJ//P3ymB8Mb/FtTJCy+HH7cfk2lSuNGunqE=",
         "owner": "zlepper",
         "repo": "styrhous",
-        "rev": "97ac59c8b65c896db7aff20613709a96b51632c1",
+        "rev": "7732c6ef5568f4e155f259461f09ae7aca6dd739",
         "type": "github"
       },
       "original": {

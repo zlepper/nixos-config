@@ -8,6 +8,19 @@
   ...
 }:
 
+let
+  luks = uuid: {
+    device = "/dev/disk/by-uuid/${uuid}";
+    # Pass TRIM through dm-crypt so fstrim.timer and btrfs async discard reach the SSDs.
+    allowDiscards = true;
+    # Skip dm-crypt's internal workqueues; lowers I/O latency on fast SSDs.
+    bypassWorkqueues = true;
+  };
+  btrfsOpts = [
+    "compress=zstd:1"
+    "noatime"
+  ];
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -32,24 +45,25 @@
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270".device =
-    "/dev/disk/by-uuid/d26f5db3-adad-472d-8244-27a2e65bb270";
+  boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270" =
+    luks "d26f5db3-adad-472d-8244-27a2e65bb270";
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/808b67f2-8102-462e-af1a-0b0b860c8ea2";
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1".device =
-    "/dev/disk/by-uuid/ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1";
+  boot.initrd.luks.devices."luks-ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1" =
+    luks "ad3fca90-eebe-4e31-96c4-46d3f1b6e4f1";
 
   fileSystems."/data" = {
     device = "/dev/disk/by-uuid/4a172187-4bf8-460a-99dd-ace508b8d25c";
     fsType = "btrfs";
     options = [
       "subvol=@data"
-      "compress=zstd"
-      "noatime"
+    ]
+    ++ btrfsOpts
+    ++ [
       # Unprivileged subvolume deletion for the CAMP spike; nosuid/nodev because a
       # root `btrfs receive` (camp-btrfs) recreates file modes from the stream.
       "user_subvol_rm_allowed"
@@ -58,8 +72,8 @@
     ];
   };
 
-  boot.initrd.luks.devices."luks-7da2e744-45ca-4d4b-a58e-edab3f92b966".device =
-    "/dev/disk/by-uuid/7da2e744-45ca-4d4b-a58e-edab3f92b966";
+  boot.initrd.luks.devices."luks-7da2e744-45ca-4d4b-a58e-edab3f92b966" =
+    luks "7da2e744-45ca-4d4b-a58e-edab3f92b966";
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/F6A6-D664";
@@ -68,10 +82,27 @@
 
   programs.partition-manager.enable = true;
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995"; } ];
+  swapDevices = [
+    {
+      device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995";
+      discardPolicy = "both";
+    }
+  ];
 
-  boot.initrd.luks.devices."luks-41434903-08ad-473f-bd3d-e8e01ef1762e".device =
-    "/dev/disk/by-uuid/41434903-08ad-473f-bd3d-e8e01ef1762e";
+  boot.initrd.luks.devices."luks-41434903-08ad-473f-bd3d-e8e01ef1762e" =
+    luks "41434903-08ad-473f-bd3d-e8e01ef1762e";
+
+  # Compressed RAM cache in front of the swap device. The lowprio/claude/codex scopes are capped
+  # at 32G (resourceLimits) and spill into swap, so most swap-ins are served from RAM. The shrinker
+  # writes cold pages back to the device instead of letting the pool fill up.
+  boot.kernelParams = [
+    "zswap.enabled=1"
+    "zswap.compressor=zstd"
+    "zswap.shrinker_enabled=1"
+  ];
+
+  # Monthly scrub of every btrfs filesystem in fileSystems (/data now, the pool after the migration).
+  services.btrfs.autoScrub.enable = true;
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
