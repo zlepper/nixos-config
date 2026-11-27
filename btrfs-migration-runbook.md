@@ -174,7 +174,7 @@ nix-env -p /nix/var/nix/profiles/system --rollback && /nix/var/nix/profiles/syst
 
 ### 1.5 Verify (recreate the migration tmux first)
 ```sh
-findmnt / /nix /home /data                      # expect: / /nix btrfs @ @nix; /home ext4; /data btrfs (p4)
+for m in / /nix /home /data; do findmnt -no TARGET,SOURCE,FSTYPE -M $m; done   # expect: / /nix btrfs [/@] [/@nix]; /home ext4; /data btrfs (p4)
 sudo btrfs filesystem show /                    # expect: 1 device
 swapon --show=NAME --noheadings | xargs -n1 lsblk -sno NAME   # expect: chain ends in the SATA disk's part1
 systemctl --failed
