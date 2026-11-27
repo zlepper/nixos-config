@@ -8,7 +8,7 @@
 
   # Perform garbage collection weekly to maintain low disk usage
   nix.gc = {
-    automatic = true;
+    automatic = false; # TEMPORARY during the btrfs migration; set back to true afterwards.
     dates = "weekly";
     options = "--delete-older-than 7d";
   };

@@ -20,6 +20,8 @@ let
     "compress=zstd:1"
     "noatime"
   ];
+  # btrfs pool holding /, /nix and (later) /home.
+  pool = "/dev/disk/by-uuid/c056e7f3-a01c-4f07-937a-8d44e1755cd8";
 in
 {
   imports = [
@@ -41,12 +43,23 @@ in
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/d5859be9-b2eb-43f8-b997-6f4fef554fde";
-    fsType = "ext4";
+    device = pool;
+    fsType = "btrfs";
+    options = [ "subvol=@" ] ++ btrfsOpts;
   };
 
-  boot.initrd.luks.devices."luks-d26f5db3-adad-472d-8244-27a2e65bb270" =
-    luks "d26f5db3-adad-472d-8244-27a2e65bb270";
+  fileSystems."/nix" = {
+    device = pool;
+    fsType = "btrfs";
+    options = [ "subvol=@nix" ] ++ btrfsOpts;
+  };
+
+  # SATA SSD p2: pool member until the WD disk replaces it, then /data.
+  boot.initrd.luks.devices."luks-ef1a2521-5cf2-4007-8ecc-b171e3600361" =
+    luks "ef1a2521-5cf2-4007-8ecc-b171e3600361";
+
+  # TEMPORARY during the btrfs migration: rescue shell if the initrd fails to boot.
+  boot.initrd.systemd.emergencyAccess = true;
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/808b67f2-8102-462e-af1a-0b0b860c8ea2";
@@ -82,15 +95,16 @@ in
 
   programs.partition-manager.enable = true;
 
+  # SATA SSD p1.
   swapDevices = [
     {
-      device = "/dev/disk/by-uuid/cf1c32eb-fa9e-422a-aa43-2d804a039995";
+      device = "/dev/disk/by-uuid/b9adf924-fd43-404c-a41e-fee5690f0121";
       discardPolicy = "both";
     }
   ];
 
-  boot.initrd.luks.devices."luks-41434903-08ad-473f-bd3d-e8e01ef1762e" =
-    luks "41434903-08ad-473f-bd3d-e8e01ef1762e";
+  boot.initrd.luks.devices."luks-99c2c80d-d7cd-4dda-bbf7-1357819d542b" =
+    luks "99c2c80d-d7cd-4dda-bbf7-1357819d542b";
 
   # Compressed RAM cache in front of the swap device. The lowprio/claude/codex scopes are capped
   # at 32G (resourceLimits) and spill into swap, so most swap-ins are served from RAM. The shrinker
